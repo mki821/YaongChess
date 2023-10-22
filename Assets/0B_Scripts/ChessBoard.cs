@@ -1,23 +1,166 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ChessBoard : MonoBehaviour
 {
-    private GameObject[,] tiles = new GameObject[8,8];
+    public ChessTile[,] tiles = new ChessTile[8,8];
+
+    [SerializeField] private Team _team;
+
+    [SerializeField] private Material _normalMat;
+    [SerializeField] private Material _selectedMat;
+    [SerializeField] private Material _selectableMat;
+    [SerializeField] private Material _attackableMat;
 
     private void Awake() {
         int count = 0;
-        for(int i = 0; i < 8; i++) {
-            for(int j = 0; j < 8; j++) {
-                tiles[i, j] = transform.GetChild(count).gameObject;
+        for(int y = 0; y < 8; y++) {
+            for(int x = 0; x < 8; x++) {
+                tiles[x, y] = transform.GetChild(count).GetComponent<ChessTile>();
+                tiles[x, y].pos = new Vector2Int(x, y);
                 count++;
             }
         }
     }
 
-    private void Update() {
-        if(Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()).direction == Vector3.zero) {
+    public void Select(Vector2Int pos, Type type) {
+        DeselectAll();
+        tiles[pos.x, pos.y].meshRender.material = _selectedMat;
+        
+        switch(type) {
+            case Type.Pawn:
+                Pawn(pos);
+                break;
+            case Type.Rook:
+                Rook(pos);
+                break;
+            case Type.Knight:
+                Knight(pos);
+                break;
+            case Type.Bishop:
+                Bishop(pos);
+                break;
+            case Type.King:
+                King(pos);
+                break;
+            case Type.Queen:
+                Queen(pos);
+                break;
+        }
+    }
 
+    private void Pawn(Vector2Int pos) {
+        if(_team == Team.Black)
+            SetSelectedTile(new Vector2Int(pos.x, pos.y - 2));
+        else
+            SetSelectedTile(new Vector2Int(pos.x, pos.y + 2));
+    }
+
+    private void Rook(Vector2Int pos)
+    {
+        for(int i = 1; i < 8; i++) {
+            if(pos.x + i < 8) {
+                SetSelectedTile(new Vector2Int(pos.x + i, pos.y));
+                if(tiles[pos.x + i, pos.y].transform.childCount > 0) break;
+            }
+            else break;
+        }
+        for(int i = 1; i < 8; i++) {
+            if(pos.x - i >= 0) {
+                SetSelectedTile(new Vector2Int(pos.x - i, pos.y));
+                if(tiles[pos.x - i, pos.y].transform.childCount > 0) break;
+            }
+            else break;
+        }
+        for(int i = 1; i < 8; i++) {
+            if(pos.y + i < 8) {
+                SetSelectedTile(new Vector2Int(pos.x, pos.y + i));
+                if(tiles[pos.x, pos.y + i].transform.childCount > 0) break;
+            }
+            else break;
+        }
+        for(int i = 1; i < 8; i++) {
+            if(pos.y - i >= 0) {
+                SetSelectedTile(new Vector2Int(pos.x, pos.y - i));
+                if(tiles[pos.x, pos.y - i].transform.childCount > 0) break;
+            }
+            else break;
+        }
+    }
+
+    private void Knight(Vector2Int pos)
+    {
+        if(pos.x + 2 >= 0 && pos.x + 2 < 8 && pos.y + 1 >= 0 && pos.y + 1 < 8)
+            SetSelectedTile(new Vector2Int(pos.x + 2, pos.y + 1));
+        if(pos.x + 2 >= 0 && pos.x + 2 < 8 && pos.y - 1 > 0 && pos.y - 1 < 8)
+            SetSelectedTile(new Vector2Int(pos.x + 2, pos.y - 1));
+        if(pos.x + 1 >= 0 && pos.x + 1 < 8 && pos.y + 2 >= 0 && pos.y + 2 < 8)
+            SetSelectedTile(new Vector2Int(pos.x + 1, pos.y + 2));
+        if(pos.x + 1 >= 0 && pos.x + 1 < 8 && pos.y - 2 >= 0 && pos.y - 2 < 8)
+            SetSelectedTile(new Vector2Int(pos.x + 1, pos.y - 2));
+        if(pos.x - 1 >= 0 && pos.x - 1 < 8 && pos.y + 2 >= 0 && pos.y + 2 < 8)
+            SetSelectedTile(new Vector2Int(pos.x - 1, pos.y + 2));
+        if(pos.x - 1 >= 0 && pos.x - 1 < 8 && pos.y - 2 >= 0 && pos.y - 2 < 8)
+            SetSelectedTile(new Vector2Int(pos.x - 1, pos.y - 2));
+        if(pos.x - 2 >= 0 && pos.x - 2 < 8 && pos.y + 1 >= 0 && pos.y + 1 < 8)
+            SetSelectedTile(new Vector2Int(pos.x - 2, pos.y + 1));
+        if(pos.x - 2 >= 0 && pos.x - 2 < 8 && pos.y - 1 >= 0 && pos.y - 1 < 8)
+            SetSelectedTile(new Vector2Int(pos.x - 2, pos.y - 1));
+    }
+
+    private void Bishop(Vector2Int pos)
+    {
+        for(int i = 1; i < 8; i++) {
+            if(pos.x + i < 8 && pos.y + i < 8) {
+                SetSelectedTile(new Vector2Int(pos.x + i, pos.y + i));
+            }
+        }
+    }
+
+    private void King(Vector2Int pos) {
+        for(int x = -1; x <= 1; x++) {
+            for(int y = -1; y <= 1; y++) {
+                if((x | y) == 0 || !(pos.x + x >= 0 && pos.x + x < 8 && pos.y + y >= 0 && pos.y + y < 8)) continue;
+                SetSelectedTile(new Vector2Int(pos.x + x, pos.y + y));
+            }
+        }
+    }
+
+    private void Queen(Vector2Int pos) {
+        for(int i = -7; i <= 7; i++) {
+            if(i == 0) continue;
+            if(pos.x + i >= 0 && pos.x + i < 8)
+                SetSelectedTile(new Vector2Int(pos.x + i, pos.y));
+            if(pos.y + i >= 0 && pos.y + i < 8)
+                SetSelectedTile(new Vector2Int(pos.x, pos.y + i));
+            if(pos.x + i >= 0 && pos.x + i < 8 && pos.y + i >= 0 && pos.y + i < 8)
+                SetSelectedTile(new Vector2Int(pos.x + i, pos.y + i));
+            if(pos.x - i >= 0 && pos.x - i < 8 && pos.y + i >= 0 && pos.y + i < 8)
+                SetSelectedTile(new Vector2Int(pos.x - i, pos.y + i));
+            if(pos.x + i >= 0 && pos.x + i < 8 && pos.y - i >= 0 && pos.y - i < 8)
+                SetSelectedTile(new Vector2Int(pos.x + i, pos.y - i));
+        }
+    }
+
+    public void SetSelectedTile(Vector2Int pos) {
+        if(tiles[pos.x, pos.y].transform.childCount > 0) {
+            Debug.Log(tiles[pos.x, pos.y].name);
+            if(tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.team != _team) {
+                tiles[pos.x, pos.y].meshRender.material = _attackableMat;
+                tiles[pos.x, pos.y].gameObject.layer = 8;
+            }
+            else return;
+        }
+        else {
+            tiles[pos.x, pos.y].meshRender.material = _selectableMat;
+            tiles[pos.x, pos.y].gameObject.layer = 7;
+        }
+
+    }
+
+    public void DeselectAll() {
+        foreach(var item in tiles) {
+            item.GetComponent<MeshRenderer>().material = _normalMat;
+            item.gameObject.layer = 6;
         }
     }
 }
