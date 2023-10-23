@@ -13,4 +13,5 @@ public enum Team { Black, White }
 public class Piece {
     public Team team;
     public Type type;
+    public bool firstMove = true;
 }

@@ -3,8 +3,7 @@ using UnityEngine;
 public class ChessBoard : MonoBehaviour
 {
     public ChessTile[,] tiles = new ChessTile[8,8];
-
-    [SerializeField] private Team _team;
+    public Team team;
 
     [SerializeField] private Material _normalMat;
     [SerializeField] private Material _selectedMat;
@@ -49,10 +48,18 @@ public class ChessBoard : MonoBehaviour
     }
 
     private void Pawn(Vector2Int pos) {
-        if(_team == Team.Black)
+        if(tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.firstMove) {
+            tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.firstMove = false;
+
+            if(team == Team.Black)
             SetSelectedTile(new Vector2Int(pos.x, pos.y - 2));
-        else
+            else
             SetSelectedTile(new Vector2Int(pos.x, pos.y + 2));
+        }
+        if(team == Team.Black)
+            SetSelectedTile(new Vector2Int(pos.x, pos.y - 1));
+            else
+            SetSelectedTile(new Vector2Int(pos.x, pos.y + 1));
     }
 
     private void Rook(Vector2Int pos)
@@ -112,6 +119,25 @@ public class ChessBoard : MonoBehaviour
         for(int i = 1; i < 8; i++) {
             if(pos.x + i < 8 && pos.y + i < 8) {
                 SetSelectedTile(new Vector2Int(pos.x + i, pos.y + i));
+                if(tiles[pos.x + i, pos.y + i].transform.childCount > 0) break;
+            }
+        }
+        for(int i = 1; i < 8; i++) {
+            if(pos.x - i >= 0 && pos.y + i < 8) {
+                SetSelectedTile(new Vector2Int(pos.x - i, pos.y + i));
+                if(tiles[pos.x - i, pos.y + i].transform.childCount > 0) break;
+            }
+        }
+        for(int i = 1; i < 8; i++) {
+            if(pos.x + i < 8 && pos.y - i >= 0) {
+                SetSelectedTile(new Vector2Int(pos.x + i, pos.y - i));
+                if(tiles[pos.x + i, pos.y - i].transform.childCount > 0) break;
+            }
+        }
+        for(int i = 1; i < 8; i++) {
+            if(pos.x - i >= 0 && pos.y - i >= 0) {
+                SetSelectedTile(new Vector2Int(pos.x - i, pos.y - i));
+                if(tiles[pos.x - i, pos.y - i].transform.childCount > 0) break;
             }
         }
     }
@@ -126,25 +152,13 @@ public class ChessBoard : MonoBehaviour
     }
 
     private void Queen(Vector2Int pos) {
-        for(int i = -7; i <= 7; i++) {
-            if(i == 0) continue;
-            if(pos.x + i >= 0 && pos.x + i < 8)
-                SetSelectedTile(new Vector2Int(pos.x + i, pos.y));
-            if(pos.y + i >= 0 && pos.y + i < 8)
-                SetSelectedTile(new Vector2Int(pos.x, pos.y + i));
-            if(pos.x + i >= 0 && pos.x + i < 8 && pos.y + i >= 0 && pos.y + i < 8)
-                SetSelectedTile(new Vector2Int(pos.x + i, pos.y + i));
-            if(pos.x - i >= 0 && pos.x - i < 8 && pos.y + i >= 0 && pos.y + i < 8)
-                SetSelectedTile(new Vector2Int(pos.x - i, pos.y + i));
-            if(pos.x + i >= 0 && pos.x + i < 8 && pos.y - i >= 0 && pos.y - i < 8)
-                SetSelectedTile(new Vector2Int(pos.x + i, pos.y - i));
-        }
+        Rook(pos);
+        Bishop(pos);
     }
 
     public void SetSelectedTile(Vector2Int pos) {
         if(tiles[pos.x, pos.y].transform.childCount > 0) {
-            Debug.Log(tiles[pos.x, pos.y].name);
-            if(tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.team != _team) {
+            if(tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.team != team) {
                 tiles[pos.x, pos.y].meshRender.material = _attackableMat;
                 tiles[pos.x, pos.y].gameObject.layer = 8;
             }
