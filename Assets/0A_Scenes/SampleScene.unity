@@ -12905,13 +12905,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a52e218a2d2974997469a3bcb7a126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiDocument: {fileID: 1988011781}
   _cardTemplate: {fileID: 9197481963319205126, guid: 3fb4f28ca8be86841944a72664c95e12,
     type: 3}
   _upgradeParts:
   - {fileID: 11400000, guid: f09a44301b519104ab17764a033d6653, type: 2}
   - {fileID: 11400000, guid: 559d9a322d8001949933f809f19963f3, type: 2}
   - {fileID: 11400000, guid: b80c3e0032d720a4b9c96a1f5e5e5a7d, type: 2}
+  - {fileID: 11400000, guid: 96da3d48e60b6f04da59ffa4f5981cb6, type: 2}
 --- !u!1 &2001734078
 GameObject:
   m_ObjectHideFlags: 0

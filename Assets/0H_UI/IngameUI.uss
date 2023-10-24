@@ -14,3 +14,16 @@
     top: 0;
     transition-duration: 1s;
 }
+
+.selected-card {
+    height: 486px;
+    width: 630px;
+    left: 0;
+    position: absolute;
+    flex-direction: row;
+}
+
+.selected-card > #card {
+    width: 290px;
+    height: 454px;
+}
