@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "YaongChess.sln"
+    "dotnet.defaultSolution": "YaongChess.sln",
+    "liveServer.settings.port": 5501
 }

@@ -10,7 +10,7 @@ public class Selector : MonoBehaviour
     [SerializeField] private LayerMask _selectableChessBoardLayer;
     [SerializeField] private LayerMask _attackableChessBoardLayer;
 
-    private Transform _currentBoard;
+    private Vector2Int _currentBoard = -Vector2Int.one;
     private Camera _cam;
 
     private void Awake() {
@@ -28,35 +28,35 @@ public class Selector : MonoBehaviour
     private void Select() {
         RaycastHit hit;
         if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _selectableChessBoardLayer)) {
-            if(_currentBoard != null) {
-                _currentBoard.transform.parent = hit.transform;
-                _currentBoard.localPosition = new Vector3(0, _currentBoard.localPosition.y, 0);
-                _chessBoard.DeselectAll();
+            if(_currentBoard != -Vector2Int.one) {
+                _chessBoard.Move(_currentBoard, hit.transform.GetComponent<ChessTile>().pos, false);
+                _currentBoard = -Vector2Int.one;
             }
         }
         else if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _chessBoardLayer)) {
             if(hit.transform.childCount > 0) {
-                _currentBoard = hit.transform.GetChild(0);
+                _currentBoard = hit.transform.GetComponent<ChessTile>().pos;
                 Piece piece = hit.transform.GetChild(0).GetComponent<ChessPiece>().piece;
                 if(piece.team == _chessBoard.team) {
                     _chessBoard.Select(hit.transform.GetComponent<ChessTile>().pos, piece.type);
                 }
             }
-            else
+            else {
+                _currentBoard = -Vector2Int.one;
                 _chessBoard.DeselectAll();
+            }
         }
         else if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _attackableChessBoardLayer)) {
             if(hit.transform.childCount > 0) {
                 Piece piece = hit.transform.GetChild(0).GetComponent<ChessPiece>().piece;
                 if(piece.team != _chessBoard.team) {
-                    Destroy(hit.transform.GetChild(0).gameObject);
-                    _currentBoard.transform.parent = hit.transform;
-                    _currentBoard.localPosition = new Vector3(0, _currentBoard.localPosition.y, 0);
-                    _chessBoard.DeselectAll();
+                    _chessBoard.Move(_currentBoard, hit.transform.GetComponent<ChessTile>().pos, true);
+                    _currentBoard = -Vector2Int.one;
                 }
             }
         }
         else {
+            _currentBoard = -Vector2Int.one;
             _chessBoard.DeselectAll();
         }
     }

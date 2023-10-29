@@ -156,7 +156,7 @@ public class ChessBoard : MonoBehaviour
         Bishop(pos);
     }
 
-    public void SetSelectedTile(Vector2Int pos) {
+    private void SetSelectedTile(Vector2Int pos) {
         if(tiles[pos.x, pos.y].transform.childCount > 0) {
             if(tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.team != team) {
                 tiles[pos.x, pos.y].meshRender.material = _attackableMat;
@@ -169,6 +169,15 @@ public class ChessBoard : MonoBehaviour
             tiles[pos.x, pos.y].gameObject.layer = 7;
         }
 
+    }
+
+    public void Move(Vector2Int pos, Vector2Int tar, bool isAttack) {
+        DeselectAll();
+        if(isAttack) {
+            Destroy(tiles[tar.x, tar.y].transform.GetChild(0).gameObject);
+        }
+            tiles[pos.x, pos.y].transform.parent = tiles[tar.x, tar.y].transform;
+            tiles[pos.x, pos.y].transform.localPosition = new Vector3(0, tiles[pos.x, pos.y].transform.localPosition.y, 0);
     }
 
     public void DeselectAll() {
