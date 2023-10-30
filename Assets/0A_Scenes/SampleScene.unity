@@ -8553,7 +8553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piece:
     team: 1
-    type: 2
+    type: 3
     firstMove: 1
 --- !u!1 &1245074439
 GameObject:
@@ -16088,7 +16088,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piece:
     team: 1
-    type: 3
+    type: 4
     firstMove: 1
 --- !u!4 &4230411818955292
 Transform:
@@ -26688,7 +26688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piece:
     team: 1
-    type: 1
+    type: 2
     firstMove: 1
 --- !u!4 &2357997110380414208
 Transform:
@@ -31252,7 +31252,7 @@ GameObject:
   - component: {fileID: 8255082858015196943}
   - component: {fileID: 8258405455071154108}
   m_Layer: 6
-  m_Name: White Stone King
+  m_Name: WhiteKing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,4 +1,3 @@
-using TMPro.EditorUtilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,9 +11,11 @@ public class Selector : MonoBehaviour
 
     private Vector2Int _currentBoard = -Vector2Int.one;
     private Camera _cam;
+    private TCPClient _tcpClient;
 
     private void Awake() {
         _cam = Camera.main;
+        _tcpClient = GetComponent<TCPClient>();
     }
 
     private void Start() {
@@ -26,38 +27,43 @@ public class Selector : MonoBehaviour
     }
 
     private void Select() {
-        RaycastHit hit;
-        if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _selectableChessBoardLayer)) {
-            if(_currentBoard != -Vector2Int.one) {
-                _chessBoard.Move(_currentBoard, hit.transform.GetComponent<ChessTile>().pos, false);
-                _currentBoard = -Vector2Int.one;
+        if(_chessBoard.curTeam == _chessBoard.team) {
+            RaycastHit hit;
+            if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _selectableChessBoardLayer)) {
+                if(_currentBoard != -Vector2Int.one) {
+                    Vector2Int pos = hit.transform.GetComponent<ChessTile>().pos;
+                    _tcpClient.SendChessInfo(Type.None, _currentBoard, true, pos, false);
+                    _currentBoard = -Vector2Int.one;
+                }
             }
-        }
-        else if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _chessBoardLayer)) {
-            if(hit.transform.childCount > 0) {
-                _currentBoard = hit.transform.GetComponent<ChessTile>().pos;
-                Piece piece = hit.transform.GetChild(0).GetComponent<ChessPiece>().piece;
-                if(piece.team == _chessBoard.team) {
-                    _chessBoard.Select(hit.transform.GetComponent<ChessTile>().pos, piece.type);
+            else if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _chessBoardLayer)) {
+                if(hit.transform.childCount > 0) {
+                    Piece piece = hit.transform.GetChild(0).GetComponent<ChessPiece>().piece;
+                    if(piece.team == _chessBoard.team) {
+                        _currentBoard = hit.transform.GetComponent<ChessTile>().pos;
+                        Debug.Log(piece.type);
+                        _tcpClient.SendChessInfo(piece.type, _currentBoard, false, -Vector2Int.one);
+                    }
+                }
+                else {
+                    _currentBoard = -Vector2Int.one;
+                    _chessBoard.DeselectAll();
+                }
+            }
+            else if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _attackableChessBoardLayer)) {
+                if(hit.transform.childCount > 0) {
+                    Piece piece = hit.transform.GetChild(0).GetComponent<ChessPiece>().piece;
+                    if(piece.team != _chessBoard.team) {
+                        Vector2Int pos = hit.transform.GetComponent<ChessTile>().pos;
+                        _tcpClient.SendChessInfo(piece.type, _currentBoard, true, pos, true);
+                        _currentBoard = -Vector2Int.one;
+                    }
                 }
             }
             else {
                 _currentBoard = -Vector2Int.one;
                 _chessBoard.DeselectAll();
             }
-        }
-        else if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _attackableChessBoardLayer)) {
-            if(hit.transform.childCount > 0) {
-                Piece piece = hit.transform.GetChild(0).GetComponent<ChessPiece>().piece;
-                if(piece.team != _chessBoard.team) {
-                    _chessBoard.Move(_currentBoard, hit.transform.GetComponent<ChessTile>().pos, true);
-                    _currentBoard = -Vector2Int.one;
-                }
-            }
-        }
-        else {
-            _currentBoard = -Vector2Int.one;
-            _chessBoard.DeselectAll();
         }
     }
 }

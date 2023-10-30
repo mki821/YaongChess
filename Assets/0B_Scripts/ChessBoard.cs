@@ -4,6 +4,7 @@ public class ChessBoard : MonoBehaviour
 {
     public ChessTile[,] tiles = new ChessTile[8,8];
     public Team team;
+    public Team curTeam = Team.White;
 
     [SerializeField] private Material _normalMat;
     [SerializeField] private Material _selectedMat;
@@ -21,29 +22,31 @@ public class ChessBoard : MonoBehaviour
         }
     }
 
-    public void Select(Vector2Int pos, Type type) {
+    public void Select(Vector2Int pos, Type type, Team team) {
         DeselectAll();
         tiles[pos.x, pos.y].meshRender.material = _selectedMat;
         
-        switch(type) {
-            case Type.Pawn:
-                Pawn(pos);
-                break;
-            case Type.Rook:
-                Rook(pos);
-                break;
-            case Type.Knight:
-                Knight(pos);
-                break;
-            case Type.Bishop:
-                Bishop(pos);
-                break;
-            case Type.King:
-                King(pos);
-                break;
-            case Type.Queen:
-                Queen(pos);
-                break;
+        if(team == this.team) {
+            switch(type) {
+                case Type.Pawn:
+                    Pawn(pos);
+                    break;
+                case Type.Rook:
+                    Rook(pos);
+                    break;
+                case Type.Knight:
+                    Knight(pos);
+                    break;
+                case Type.Bishop:
+                    Bishop(pos);
+                    break;
+                case Type.King:
+                    King(pos);
+                    break;
+                case Type.Queen:
+                    Queen(pos);
+                    break;
+            }
         }
     }
 
@@ -176,8 +179,11 @@ public class ChessBoard : MonoBehaviour
         if(isAttack) {
             Destroy(tiles[tar.x, tar.y].transform.GetChild(0).gameObject);
         }
-            tiles[pos.x, pos.y].transform.parent = tiles[tar.x, tar.y].transform;
-            tiles[pos.x, pos.y].transform.localPosition = new Vector3(0, tiles[pos.x, pos.y].transform.localPosition.y, 0);
+        Transform trm = tiles[pos.x, pos.y].transform.GetChild(0);
+        trm.parent = tiles[tar.x, tar.y].transform;
+        trm.localPosition = new Vector3(0, trm.localPosition.y, 0);
+
+        curTeam = curTeam == Team.White ? Team.Black : Team.White;
     }
 
     public void DeselectAll() {
