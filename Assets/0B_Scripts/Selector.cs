@@ -27,12 +27,14 @@ public class Selector : MonoBehaviour
     }
 
     private void Select() {
+        if(_chessBoard.team == Team.None) return;
+
         if(_chessBoard.curTeam == _chessBoard.team) {
             RaycastHit hit;
             if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _selectableChessBoardLayer)) {
                 if(_currentBoard != -Vector2Int.one) {
                     Vector2Int pos = hit.transform.GetComponent<ChessTile>().pos;
-                    _tcpClient.SendChessInfo(Type.None, _currentBoard, true, pos, false);
+                    SendChessInfo(Type.None, _currentBoard, true, pos, false);
                     _currentBoard = -Vector2Int.one;
                 }
             }
@@ -41,8 +43,7 @@ public class Selector : MonoBehaviour
                     Piece piece = hit.transform.GetChild(0).GetComponent<ChessPiece>().piece;
                     if(piece.team == _chessBoard.team) {
                         _currentBoard = hit.transform.GetComponent<ChessTile>().pos;
-                        Debug.Log(piece.type);
-                        _tcpClient.SendChessInfo(piece.type, _currentBoard, false, -Vector2Int.one);
+                        SendChessInfo(piece.type, _currentBoard, false, -Vector2Int.one);
                     }
                 }
                 else {
@@ -55,7 +56,7 @@ public class Selector : MonoBehaviour
                     Piece piece = hit.transform.GetChild(0).GetComponent<ChessPiece>().piece;
                     if(piece.team != _chessBoard.team) {
                         Vector2Int pos = hit.transform.GetComponent<ChessTile>().pos;
-                        _tcpClient.SendChessInfo(piece.type, _currentBoard, true, pos, true);
+                        SendChessInfo(piece.type, _currentBoard, true, pos, true);
                         _currentBoard = -Vector2Int.one;
                     }
                 }
@@ -65,5 +66,16 @@ public class Selector : MonoBehaviour
                 _chessBoard.DeselectAll();
             }
         }
+    }
+
+    private void SendChessInfo(Type type, Vector2Int selectTile, bool isMove, Vector2Int moveTile, bool isAttack = false) {
+        TCPClient.SendBuffer("chess", new ChessInfo() {
+            selectTile = new int[] { selectTile.x, selectTile.y },
+            isMove = isMove,
+            isAttack = isAttack,
+            moveTile = new int[] { moveTile.x, moveTile.y },
+            team = _chessBoard.team,
+            type = type
+        });
     }
 }

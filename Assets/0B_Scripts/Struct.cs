@@ -1,5 +1,6 @@
 using System.Net.Sockets;
 using System.Threading;
+using LitJson;
 
 public enum Type {
     None,
@@ -11,7 +12,7 @@ public enum Type {
     King
 }
 
-public enum Team { Black, White }
+public enum Team { None, Black, White }
 
 [System.Serializable]
 public class Piece {
@@ -25,4 +26,25 @@ public class NetworkClient {
     public TcpClient client;
     public NetworkStream stream;
     public Thread thread;
+}
+
+class Box{
+    public string command;
+    public object data;
+
+    public Box(string command, object data) {
+        this.command = command;
+        this.data = data;
+    }
+
+    public string ToJson() => JsonMapper.ToJson(this);
+}
+
+class ChessInfo {
+    public int[] selectTile;
+    public bool isMove;
+    public bool isAttack;
+    public int[] moveTile;
+    public Team team;
+    public Type type;
 }

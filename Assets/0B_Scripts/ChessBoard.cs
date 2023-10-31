@@ -3,7 +3,7 @@ using UnityEngine;
 public class ChessBoard : MonoBehaviour
 {
     public ChessTile[,] tiles = new ChessTile[8,8];
-    public Team team;
+    public Team team = Team.None;
     public Team curTeam = Team.White;
 
     [SerializeField] private Material _normalMat;
@@ -20,6 +20,21 @@ public class ChessBoard : MonoBehaviour
                 count++;
             }
         }
+    }
+
+    private void Start() {
+        //TCPClient.EventListener["chess"] = ReceiveChessInfo;
+    }
+
+    public void ReceiveChessInfo(string jsondata) {
+        Box decode = LitJson.JsonMapper.ToObject<Box>(jsondata);
+        ChessInfo data = decode.data as ChessInfo;
+
+        if(data.isMove) {
+            Move(new Vector2Int(data.selectTile[0], data.selectTile[1]), new Vector2Int(data.moveTile[0], data.moveTile[1]), data.isAttack);
+        }
+        else
+            Select(new Vector2Int(data.selectTile[0], data.selectTile[1]), data.type, data.team);
     }
 
     public void Select(Vector2Int pos, Type type, Team team) {
@@ -51,17 +66,38 @@ public class ChessBoard : MonoBehaviour
     }
 
     private void Pawn(Vector2Int pos) {
-        if(tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.firstMove) {
+        if (team == Team.Black) {
+            if (tiles[pos.x - 1, pos.y - 1].transform.childCount > 0 && team != tiles[pos.x - 1, pos.y - 1].GetComponentInChildren<ChessPiece>().piece.team) {
+                SetSelectedTile(new Vector2Int(pos.x - 1, pos.y - 1));
+                return;
+            }
+            else if (tiles[pos.x + 1, pos.y - 1].transform.childCount > 0 && team != tiles[pos.x + 1, pos.y - 1].GetComponentInChildren<ChessPiece>().piece.team) {
+                SetSelectedTile(new Vector2Int(pos.x + 1, pos.y - 1));
+                return;
+            }
+        }
+        else if (team == Team.White) {
+            if (tiles[pos.x - 1, pos.y + 1].transform.childCount > 0 && team != tiles[pos.x - 1, pos.y + 1].GetComponentInChildren<ChessPiece>().piece.team) {
+                SetSelectedTile(new Vector2Int(pos.x - 1, pos.y + 1));
+                return;
+            }
+            else if (tiles[pos.x + 1, pos.y + 1].transform.childCount > 0 && team != tiles[pos.x + 1, pos.y + 1].GetComponentInChildren<ChessPiece>().piece.team) {
+                SetSelectedTile(new Vector2Int(pos.x + 1, pos.y + 1));
+                return;
+            }
+        }
+
+        if (tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.firstMove) {
             tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.firstMove = false;
 
-            if(team == Team.Black)
-            SetSelectedTile(new Vector2Int(pos.x, pos.y - 2));
+            if (team == Team.Black)
+                SetSelectedTile(new Vector2Int(pos.x, pos.y - 2));
             else
-            SetSelectedTile(new Vector2Int(pos.x, pos.y + 2));
+                SetSelectedTile(new Vector2Int(pos.x, pos.y + 2));
         }
-        if(team == Team.Black)
+        if (team == Team.Black)
             SetSelectedTile(new Vector2Int(pos.x, pos.y - 1));
-            else
+        else
             SetSelectedTile(new Vector2Int(pos.x, pos.y + 1));
     }
 
