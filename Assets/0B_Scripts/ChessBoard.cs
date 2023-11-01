@@ -98,14 +98,14 @@ public class ChessBoard : MonoBehaviour
 
         if (tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.firstMove) {
             if (team == Team.Black)
-                SetSelectedTile(new Vector2Int(pos.x, pos.y - 2));
+                SetSelectedTile(new Vector2Int(pos.x, pos.y - 2), false);
             else
-                SetSelectedTile(new Vector2Int(pos.x, pos.y + 2));
+                SetSelectedTile(new Vector2Int(pos.x, pos.y + 2), false);
         }
         if (team == Team.Black)
-            SetSelectedTile(new Vector2Int(pos.x, pos.y - 1));
+            SetSelectedTile(new Vector2Int(pos.x, pos.y - 1), false);
         else
-            SetSelectedTile(new Vector2Int(pos.x, pos.y + 1));
+            SetSelectedTile(new Vector2Int(pos.x, pos.y + 1), false);
     }
 
     private void Rook(Vector2Int pos)
@@ -202,19 +202,18 @@ public class ChessBoard : MonoBehaviour
         Bishop(pos);
     }
 
-    private void SetSelectedTile(Vector2Int pos) {
-        if(tiles[pos.x, pos.y].transform.childCount > 0) {
+    private void SetSelectedTile(Vector2Int pos, bool attack = true) {
+        if(attack && tiles[pos.x, pos.y].transform.childCount > 0) {
             if(tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.team != team) {
                 tiles[pos.x, pos.y].meshRender.material = _attackableMat;
                 tiles[pos.x, pos.y].gameObject.layer = 8;
             }
             else return;
         }
-        else {
+        else if (tiles[pos.x, pos.y].transform.childCount == 0) {
             tiles[pos.x, pos.y].meshRender.material = _selectableMat;
             tiles[pos.x, pos.y].gameObject.layer = 7;
         }
-
     }
 
     public void Move(Vector2Int pos, Vector2Int tar, bool isAttack) {
