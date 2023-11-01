@@ -12,24 +12,11 @@ public class Intro : MonoBehaviour
     private void Start() {
         var root = _uiDocument.rootVisualElement;
 
-        root.Q<TextField>("hostname").RegisterCallback<ChangeEvent<string>>(HandleSetHostName);
-        root.Q<TextField>("port").RegisterCallback<ChangeEvent<string>>(HandleSetPort);
         root.Q<VisualElement>("btn-start").RegisterCallback<ClickEvent>(HandleStartGame);
     }
 
     private void HandleStartGame(ClickEvent evt)
     {
         NetworkManager.Instance.StartGame();
-    }
-
-    private void HandleSetHostName(ChangeEvent<string> evt)
-    {
-        NetworkManager.Instance.HostName = evt.newValue;
-    }
-
-    private void HandleSetPort(ChangeEvent<string> evt)
-    {
-        if (int.TryParse(evt.newValue, out int intValue))
-            NetworkManager.Instance.Port = intValue;
     }
 }

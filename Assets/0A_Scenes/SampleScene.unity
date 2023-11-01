@@ -4630,6 +4630,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 713201655}
+  - component: {fileID: 713201656}
   m_Layer: 0
   m_Name: Chess
   m_TagString: Untagged
@@ -4655,6 +4656,29 @@ Transform:
   - {fileID: 477084718}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &713201656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713201654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84eaa7fcae98f534dbd7271f4ee31899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _chessBoard: {fileID: 1508242062}
+  _inputReader: {fileID: 11400000, guid: 18271fcb931688e45a256551a43eabe2, type: 2}
+  _chessBoardLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _selectableChessBoardLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  _attackableChessBoardLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &722048330
 GameObject:
   m_ObjectHideFlags: 0
@@ -4913,7 +4937,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 784657946}
-  - component: {fileID: 784657945}
   - component: {fileID: 784657948}
   m_Layer: 0
   m_Name: Brain
@@ -4922,29 +4945,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &784657945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784657944}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84eaa7fcae98f534dbd7271f4ee31899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _chessBoard: {fileID: 1508242062}
-  _inputReader: {fileID: 11400000, guid: 18271fcb931688e45a256551a43eabe2, type: 2}
-  _chessBoardLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  _selectableChessBoardLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  _attackableChessBoardLayer:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!4 &784657946
 Transform:
   m_ObjectHideFlags: 0
@@ -4972,7 +4972,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eefef3327c69a74386e2e44f664ecb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _chessBoard: {fileID: 1508242062}
 --- !u!1 &790288199
 GameObject:
   m_ObjectHideFlags: 0
@@ -9841,6 +9840,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 1
   curTeam: 2
+  _camTrm: {fileID: 110229988}
   _normalMat: {fileID: 2100000, guid: b0077fdb4a76f33409d0709da8fc37bb, type: 2}
   _selectedMat: {fileID: 2100000, guid: fbd5f062de970cc4aa4b4d235eefd5b6, type: 2}
   _selectableMat: {fileID: 2100000, guid: 3618f755857955e4583a533b97ff6cd1, type: 2}

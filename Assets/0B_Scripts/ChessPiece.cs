@@ -7,5 +7,6 @@ public class ChessPiece : MonoBehaviour
 
     private void Awake() {
         piece.type = (Type)Enum.Parse(typeof(Type), gameObject.name.Substring(5));
+        piece.team = (Team)Enum.Parse(typeof(Team), gameObject.name.Substring(0, 5));
     }
 }

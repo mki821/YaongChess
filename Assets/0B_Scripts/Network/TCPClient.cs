@@ -28,7 +28,7 @@ public class TCPClient : MonoBehaviour
     }
 
     private void Start() {
-        tc = new TcpClient(NetworkManager.Instance.HostName, NetworkManager.Instance.Port);
+        tc = new TcpClient("172.31.3.146", 5500);
         stream = tc.GetStream();
 
         Thread thread = new Thread(ReceiveBuffer);
@@ -42,7 +42,7 @@ public class TCPClient : MonoBehaviour
     }
 
     public static void SendBuffer(string type, object data) {
-        byte[] buffer = Encoding.ASCII.GetBytes(new Box(type, data).ToJson() + "//ENDBUFFER//");
+        byte[] buffer = Encoding.UTF8.GetBytes(new Box(type, data).ToJson() + "\\ENDBUFFER\\");
 
         instance.stream.Write(buffer, 0, buffer.Length);
     }
@@ -53,16 +53,15 @@ public class TCPClient : MonoBehaviour
             byte[] outBuffer = new byte[1024];
             StringBuilder output = new StringBuilder();
             Debug.Log("wait");
-            while(!output.ToString().Contains("//ENDBUFFER//")) {
+            while(!output.ToString().Contains("\\ENDBUFFER\\")) {
                 if(stream.DataAvailable) {
                     int nbytes = stream.Read(outBuffer, 0, outBuffer.Length);
-                    output.Append(Encoding.ASCII.GetString(outBuffer, 0, nbytes));
+                    output.Append(Encoding.UTF8.GetString(outBuffer, 0, nbytes));
                     print($"read! {nbytes}");
                 }
             }
 
-            
-            JsonData decode = JsonMapper.ToObject(output.ToString());
+            JsonData decode = JsonMapper.ToObject(output.ToString().Replace("\\ENDBUFFER\\", ""));
 
             UnityAction<JsonData> CallBack;
             if (!EventListener.TryGetValue((string)decode["command"], out CallBack)){

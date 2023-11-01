@@ -11,11 +11,9 @@ public class Selector : MonoBehaviour
 
     private Vector2Int _currentBoard = -Vector2Int.one;
     private Camera _cam;
-    private TCPClient _tcpClient;
 
     private void Awake() {
         _cam = Camera.main;
-        _tcpClient = GetComponent<TCPClient>();
     }
 
     private void Start() {
