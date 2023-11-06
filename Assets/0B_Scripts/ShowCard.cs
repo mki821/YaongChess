@@ -87,6 +87,7 @@ public class ShowCard : MonoBehaviour
     }
 
     private void SelectCard(UpgradeParts card) {
+        ChessBoard.upgradeParts[card.name] = true;
         _contentBox.Clear();
         _background.style.visibility = Visibility.Hidden;
 

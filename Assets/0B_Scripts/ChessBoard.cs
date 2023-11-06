@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ChessBoard : MonoBehaviour
 {
+    public static Dictionary<string, bool> upgradeParts = new Dictionary<string, bool>();
+
     public ChessTile[,] tiles = new ChessTile[8,8];
     public Team team = Team.None;
     public Team curTeam = Team.White;
@@ -78,21 +81,17 @@ public class ChessBoard : MonoBehaviour
         if (team == Team.Black) {
             if (pos.x - 1 >= 0 && pos.y - 1 >= 0 && tiles[pos.x - 1, pos.y - 1].transform.childCount > 0 && team != tiles[pos.x - 1, pos.y - 1].GetComponentInChildren<ChessPiece>().piece.team) {
                 SetSelectedTile(new Vector2Int(pos.x - 1, pos.y - 1));
-                return;
             }
             else if (pos.x + 1 < 8 && pos.y - 1 >= 0 && tiles[pos.x + 1, pos.y - 1].transform.childCount > 0 && team != tiles[pos.x + 1, pos.y - 1].GetComponentInChildren<ChessPiece>().piece.team) {
                 SetSelectedTile(new Vector2Int(pos.x + 1, pos.y - 1));
-                return;
             }
         }
         else if (team == Team.White) {
             if (pos.x - 1 >= 0 && pos.y + 1 < 8 && tiles[pos.x - 1, pos.y + 1].transform.childCount > 0 && team != tiles[pos.x - 1, pos.y + 1].GetComponentInChildren<ChessPiece>().piece.team) {
                 SetSelectedTile(new Vector2Int(pos.x - 1, pos.y + 1));
-                return;
             }
             else if (pos.x + 1 < 8 && pos.y + 1 < 8 && tiles[pos.x + 1, pos.y + 1].transform.childCount > 0 && team != tiles[pos.x + 1, pos.y + 1].GetComponentInChildren<ChessPiece>().piece.team) {
                 SetSelectedTile(new Vector2Int(pos.x + 1, pos.y + 1));
-                return;
             }
         }
 
@@ -101,11 +100,25 @@ public class ChessBoard : MonoBehaviour
                 SetSelectedTile(new Vector2Int(pos.x, pos.y - 2), false);
             else
                 SetSelectedTile(new Vector2Int(pos.x, pos.y + 2), false);
+
+            if(upgradeParts["March"]) {
+                if (team == Team.Black)
+                SetSelectedTile(new Vector2Int(pos.x, pos.y - 3), false);
+            else
+                SetSelectedTile(new Vector2Int(pos.x, pos.y + 3), false);
+            }
         }
         if (team == Team.Black)
             SetSelectedTile(new Vector2Int(pos.x, pos.y - 1), false);
         else
             SetSelectedTile(new Vector2Int(pos.x, pos.y + 1), false);
+
+        if(upgradeParts["March"]) {
+            if (team == Team.Black)
+            SetSelectedTile(new Vector2Int(pos.x, pos.y - 2), false);
+        else
+            SetSelectedTile(new Vector2Int(pos.x, pos.y + 2), false);
+        }
     }
 
     private void Rook(Vector2Int pos)
