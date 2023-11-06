@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9fa454208f5df8438f1672f9247d57e, type: 3}
   m_Name: "\uAC00\uBD80\uC7A5\uC81C"
   m_EditorClassIdentifier: 
+  name: Patriarchy
   partsName: "\uAC00\uBD80\uC7A5\uC81C"
   partsSprite: {fileID: 21300000, guid: 15ee23c98f169f543b8939a4c76d052c, type: 3}
   effect: "\uD0B9\uACFC \uD038\uC758\\n\uC774\uB3D9\uBC29\uC2DD\uC774 \uBC14\uB010\uB2E4"

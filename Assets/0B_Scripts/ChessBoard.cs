@@ -5,7 +5,6 @@ public class ChessBoard : MonoBehaviour
 {
     public static Dictionary<string, bool> upgradeParts = new Dictionary<string, bool>();
 
-    public ChessTile[,] tiles = new ChessTile[8,8];
     public Team team = Team.None;
     public Team curTeam = Team.White;
 
@@ -14,6 +13,8 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private Material _selectedMat;
     [SerializeField] private Material _selectableMat;
     [SerializeField] private Material _attackableMat;
+
+    private ChessTile[,] tiles = new ChessTile[8,8];
 
     private void Awake() {
         int count = 0;
@@ -24,6 +25,9 @@ public class ChessBoard : MonoBehaviour
                 count++;
             }
         }
+
+        upgradeParts["March"] = false;
+        upgradeParts["Patriarchy"] = false;
     }
 
     private void Start() {
@@ -103,9 +107,9 @@ public class ChessBoard : MonoBehaviour
 
             if(upgradeParts["March"]) {
                 if (team == Team.Black)
-                SetSelectedTile(new Vector2Int(pos.x, pos.y - 3), false);
-            else
-                SetSelectedTile(new Vector2Int(pos.x, pos.y + 3), false);
+                    SetSelectedTile(new Vector2Int(pos.x, pos.y - 3), false);
+                else
+                    SetSelectedTile(new Vector2Int(pos.x, pos.y + 3), false);
             }
         }
         if (team == Team.Black)
@@ -115,9 +119,9 @@ public class ChessBoard : MonoBehaviour
 
         if(upgradeParts["March"]) {
             if (team == Team.Black)
-            SetSelectedTile(new Vector2Int(pos.x, pos.y - 2), false);
-        else
-            SetSelectedTile(new Vector2Int(pos.x, pos.y + 2), false);
+                SetSelectedTile(new Vector2Int(pos.x, pos.y - 2), false);
+            else
+                SetSelectedTile(new Vector2Int(pos.x, pos.y + 2), false);
         }
     }
 
@@ -201,16 +205,43 @@ public class ChessBoard : MonoBehaviour
         }
     }
 
-    private void King(Vector2Int pos) {
+    private void King(Vector2Int pos, bool ignore = false) {
+        if(upgradeParts["Patriarchy"] && !ignore) {
+            Queen(pos, true);
+            return;
+        }
+
         for(int x = -1; x <= 1; x++) {
             for(int y = -1; y <= 1; y++) {
                 if((x | y) == 0 || !(pos.x + x >= 0 && pos.x + x < 8 && pos.y + y >= 0 && pos.y + y < 8)) continue;
                 SetSelectedTile(new Vector2Int(pos.x + x, pos.y + y));
             }
         }
+
+        if(tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.firstMove) {
+            for(int i = pos.x + 1; i < 8; ++i)
+                if(tiles[i, pos.y].transform.childCount > 0) {
+                    if(tiles[i, pos.y].transform.GetChild(0).name.Contains("Rook"))
+                        if(tiles[i, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.firstMove)
+                            SetSelectedTile(new Vector2Int(pos.x + 2, pos.y));
+                break;
+                }
+            for(int i = pos.x - 1; i >= 0; --i)
+                if(tiles[i, pos.y].transform.childCount > 0) {
+                    if(tiles[i, pos.y].transform.GetChild(0).name.Contains("Rook"))
+                        if(tiles[i, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.firstMove)
+                            SetSelectedTile(new Vector2Int(pos.x - 2, pos.y));
+                break;
+                }
+        }
     }
 
-    private void Queen(Vector2Int pos) {
+    private void Queen(Vector2Int pos, bool ignore = false) {
+        if(upgradeParts["Patriarchy"] && !ignore) {
+            King(pos, true);
+            return;
+        }
+
         Rook(pos);
         Bishop(pos);
     }
@@ -237,6 +268,18 @@ public class ChessBoard : MonoBehaviour
 
         if(isAttack) {
             Destroy(tiles[tar.x, tar.y].transform.GetChild(0).gameObject);
+        }
+        else if(tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.type == Type.King) {
+            if(pos.x - tar.x == 2) {
+                Transform rook = tiles[0, pos.y].transform.GetChild(0);
+                rook.parent = tiles[tar.x + 1, tar.y].transform;
+                rook.localPosition = new Vector3(0, rook.localPosition.y, 0);
+            }
+            else if(pos.x - tar.x == -2) {
+                Transform rook = tiles[7, pos.y].transform.GetChild(0);
+                rook.parent = tiles[tar.x - 1, tar.y].transform;
+                rook.localPosition = new Vector3(0, rook.localPosition.y, 0);
+            }
         }
         Transform trm = tiles[pos.x, pos.y].transform.GetChild(0);
         trm.parent = tiles[tar.x, tar.y].transform;
