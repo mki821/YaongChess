@@ -11,6 +11,9 @@ public class TCPClient : MonoBehaviour
 {
     public static Dictionary<string, UnityAction<JsonData>> EventListener = new();
 
+    [SerializeField] private string IP = "172.31.3.146";
+    [SerializeField] private int port = 5500;
+
     private Queue<Action> commandQueue = new Queue<Action>();
     private TcpClient tc;
     private NetworkStream stream;
@@ -28,7 +31,7 @@ public class TCPClient : MonoBehaviour
     }
 
     private void Start() {
-        tc = new TcpClient("172.31.3.146", 5500);
+        tc = new TcpClient(IP, port);
         stream = tc.GetStream();
 
         Thread thread = new Thread(ReceiveBuffer);
@@ -60,6 +63,7 @@ public class TCPClient : MonoBehaviour
                     print($"read! {nbytes}");
                 }
             }
+            Debug.Log(output);
 
             JsonData decode = JsonMapper.ToObject(output.ToString().Replace("\\ENDBUFFER\\", ""));
 
@@ -69,9 +73,6 @@ public class TCPClient : MonoBehaviour
             }
             else {
                 commandQueue.Enqueue(() => CallBack.Invoke(decode["data"]));
-                /*print($"Connected Server | PlayerID : {output.ToString().Replace("//ENDBUFFER//", "")}");
-                NetworkManager.Instance.ID = int.Parse(output.ToString().Replace("//ENDBUFFER//", ""));
-                _chessBoard.team = NetworkManager.Instance.ID == 1 ? Team.White : Team.Black;*/
             }
         }
     }

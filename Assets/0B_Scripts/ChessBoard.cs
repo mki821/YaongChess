@@ -36,12 +36,12 @@ public class ChessBoard : MonoBehaviour
     }
 
     public void ReceiveTeam(LitJson.JsonData jsondata) {
-        if ((int)jsondata % 2 == 0) {
+        if ((int)jsondata == 0)
+            team = Team.White;
+        else if((int)jsondata == 1) {
             team = Team.Black;
             _camTrm.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
         }
-        else
-            team = Team.White;
     }
 
     public void ReceiveChessInfo(LitJson.JsonData jsondata) {

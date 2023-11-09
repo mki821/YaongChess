@@ -1,0 +1,39 @@
+.room {
+    height: 130px;
+    background-color: rgb(0, 0, 0);
+    -unity-slice-bottom: 3;
+    margin-bottom: 15px;
+}
+
+.room-name {
+    -unity-font: resource('Fonts/SpoqaHanSansNeo-Bold');
+    -unity-font-definition: initial;
+    color: rgb(255, 255, 255);
+    font-size: 70px;
+    margin-left: 23px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.room-personnel {
+    color: rgb(255, 255, 255);
+    -unity-text-align: upper-right;
+    position: absolute;
+    top: 59px;
+    left: 1798px;
+    -unity-font-style: bold;
+    -unity-font: resource('Fonts/SpoqaHanSansNeo-Bold');
+    -unity-font-definition: initial;
+    font-size: 41px;
+}
+
+.room-host {
+    color: rgb(255, 255, 255);
+    -unity-font-definition: initial;
+    -unity-font: resource('Fonts/SpoqaHanSansNeo-Regular');
+    -unity-font-style: normal;
+    font-size: 27px;
+    margin-left: 28px;
+    margin-top: 0;
+    padding-top: 0;
+}

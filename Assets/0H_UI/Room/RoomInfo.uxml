@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement name="room" class="room">
+        <ui:Label tabindex="-1" text="방 이름" parse-escape-sequences="true" display-tooltip-when-elided="true" name="room-name" class="room-name" />
+        <ui:Label tabindex="-1" text="Hostname" parse-escape-sequences="true" display-tooltip-when-elided="true" name="room-host" class="room-host" />
+        <ui:Label tabindex="-1" text="1 / 2" parse-escape-sequences="true" display-tooltip-when-elided="true" name="room-personnel" class="room-personnel" />
+    </ui:VisualElement>
+</ui:UXML>
