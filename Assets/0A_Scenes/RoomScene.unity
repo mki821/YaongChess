@@ -336,6 +336,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94f419a8be41128418e0dfe88d750a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _roomInfoTemplate: {fileID: 9197481963319205126, guid: cbf8351a1f6649c4b86768e4f2f2fe33,
+    type: 3}
+  _loadingPanelTemplate: {fileID: 0}
 --- !u!1 &2144824828
 GameObject:
   m_ObjectHideFlags: 0

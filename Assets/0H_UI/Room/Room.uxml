@@ -1,8 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/0H_UI/Room/Room.uss?fileID=7433441132597879392&amp;guid=22ef8264a4663434ea0eef07a86a96ab&amp;type=3#Room" />
     <ui:VisualElement name="container" style="flex-grow: 1; background-color: rgb(123, 123, 123);">
-        <ui:VisualElement style="height: 174px;">
+        <ui:VisualElement name="content" style="height: 174px; flex-direction: row;">
             <ui:Label tabindex="-1" text="방 목록" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Bold&apos;); -unity-font-definition: initial; -unity-font-style: bold; color: rgb(255, 255, 255); font-size: 122px; margin-left: 69px;" />
+            <ui:VisualElement name="refresh" style="width: 100px; height: 100px; left: 1318px; top: 34px; background-image: url(&apos;project://database/Assets/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2346436936791262179&amp;guid=b50df59e84fe450469a8b03c89a019b4&amp;type=3#console.infoicon&apos;);" />
         </ui:VisualElement>
         <ui:ScrollView name="room-list" />
     </ui:VisualElement>
