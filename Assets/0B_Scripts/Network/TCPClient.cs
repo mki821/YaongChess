@@ -38,6 +38,10 @@ public class TCPClient : MonoBehaviour
         thread.Start();
     }
 
+    private void OnDestroy() {
+        tc.Close();
+    }
+
     private void Update() {
         if(commandQueue.Count > 0) {
             commandQueue.Dequeue()?.Invoke();;

@@ -26,6 +26,8 @@ public class RoomUI : MonoBehaviour
         TCPClient.EventListener["refresh.room"] = RefreshRoom;
         TCPClient.EventListener["try.room"] = ConnectRoom;
 
+        TCPClient.SendBuffer("room.refresh", null);
+
         var root = _uiDocument.rootVisualElement;
 
         _roomList = root.Q<VisualElement>("room-list");
@@ -33,6 +35,8 @@ public class RoomUI : MonoBehaviour
     }
 
     public void RefreshRoom(LitJson.JsonData jsondata) {
+        _roomList.Clear();
+
         var roomInfos = LitJson.JsonMapper.ToObject<RoomInfo[]>((string)jsondata);
 
         foreach(RoomInfo item in roomInfos) {
@@ -60,9 +64,7 @@ public class RoomUI : MonoBehaviour
     }
 
     private void ConnectRoom(LitJson.JsonData jsondata) {
-        bool success = LitJson.JsonMapper.ToObject<bool>(jsondata.ToJson());
-
-        if(success) {
+        if(jsondata.ToString() == "True") {
             SceneManager.LoadScene(2);
         }
         else {
