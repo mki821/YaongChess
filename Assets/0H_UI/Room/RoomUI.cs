@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
@@ -17,12 +16,14 @@ public class RoomUI : MonoBehaviour
     private UIDocument _uiDocument;
     private VisualElement _roomList;
     private VisualElement _loadingPanel;
+    private VisualElement _roomMakePanel;
 
     private void Awake() {
         _uiDocument = GetComponent<UIDocument>();
     }
 
     private void Start() {
+        TCPClient.EventListener["success.room"] = GotoLobby;
         TCPClient.EventListener["refresh.room"] = RefreshRoom;
         TCPClient.EventListener["try.room"] = ConnectRoom;
 
@@ -32,6 +33,13 @@ public class RoomUI : MonoBehaviour
 
         _roomList = root.Q<VisualElement>("room-list");
         root.Q<VisualElement>("refresh").RegisterCallback<ClickEvent>(e => TCPClient.SendBuffer("room.refresh", null));
+        root.Q<VisualElement>("btn-maker").RegisterCallback<ClickEvent>(e => MakeRoom());
+
+        _roomMakePanel = root.Q<VisualElement>("panel");
+    }
+
+    private void GotoLobby(LitJson.JsonData jsondata) {
+        SceneManager.LoadScene(2);
     }
 
     public void RefreshRoom(LitJson.JsonData jsondata) {
@@ -53,7 +61,8 @@ public class RoomUI : MonoBehaviour
     }
 
     private void MakeRoom() {
-        //
+        _roomMakePanel.style.display = DisplayStyle.Flex;
+        _roomMakePanel.Q<VisualElement>("btn-make").RegisterCallback<ClickEvent>(e => TCPClient.SendBuffer("room.make", _roomMakePanel.Q<TextField>("room-name").text));
     }
 
     private void TryConnectRoom(int roomID) {

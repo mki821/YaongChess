@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ChessBoard : MonoBehaviour
 {
@@ -28,20 +29,13 @@ public class ChessBoard : MonoBehaviour
 
         upgradeParts["March"] = false;
         upgradeParts["Patriarchy"] = false;
+
+        team = RememberMe.Instance.team;
     }
 
     private void Start() {
-        TCPClient.EventListener["set.team"] = ReceiveTeam;
         TCPClient.EventListener["chess"] = ReceiveChessInfo;
-    }
-
-    public void ReceiveTeam(LitJson.JsonData jsondata) {
-        if ((int)jsondata == 0)
-            team = Team.White;
-        else if((int)jsondata == 1) {
-            team = Team.Black;
-            _camTrm.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-        }
+        TCPClient.EventListener["disconnect.room"] = (LitJson.JsonData jsondata) => SceneManager.LoadScene(1);
     }
 
     public void ReceiveChessInfo(LitJson.JsonData jsondata) {
