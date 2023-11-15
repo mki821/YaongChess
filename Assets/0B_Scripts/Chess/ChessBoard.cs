@@ -9,11 +9,13 @@ public class ChessBoard : MonoBehaviour
     public Team team = Team.None;
     public Team curTeam = Team.White;
 
+    [SerializeField] private GameObject[] prefabs;
     [SerializeField] private Transform _camTrm;
     [SerializeField] private Material _normalMat;
     [SerializeField] private Material _selectedMat;
     [SerializeField] private Material _selectableMat;
     [SerializeField] private Material _attackableMat;
+    [SerializeField] private Material _promotableMat;
 
     private ChessTile[,] tiles = new ChessTile[8,8];
 
@@ -30,7 +32,7 @@ public class ChessBoard : MonoBehaviour
         upgradeParts["March"] = false;
         upgradeParts["Patriarchy"] = false;
 
-        team = RememberMe.Instance.team;
+        if ((team = RememberMe.Instance.team) == Team.Black) _camTrm.rotation = Quaternion.Euler(0, 180, 0);
     }
 
     private void Start() {
@@ -41,10 +43,36 @@ public class ChessBoard : MonoBehaviour
     public void ReceiveChessInfo(LitJson.JsonData jsondata) {
         ChessInfo data = LitJson.JsonMapper.ToObject<ChessInfo>(jsondata.ToJson());
 
-        if(data.isMove)
+        if(data.isMove) {
+            if(data.promote) 
+                Promote(new Vector2Int(data.selectTile[0], data.selectTile[1]), new Vector2Int(data.moveTile[0], data.moveTile[1]), data.type);
             Move(new Vector2Int(data.selectTile[0], data.selectTile[1]), new Vector2Int(data.moveTile[0], data.moveTile[1]), data.isAttack);
+        }
         else
             Select(new Vector2Int(data.selectTile[0], data.selectTile[1]), data.type, data.team);
+    }
+
+    private void Promote(Vector2Int pos, Vector2Int targetPos, Type type) {
+        Destroy(tiles[pos.x, pos.y].gameObject);
+
+        GameObject promoteObj = null;
+        switch(type) {
+            case Type.Knight:
+                promoteObj = prefabs[1];
+                break;
+            case Type.Bishop:
+                promoteObj = prefabs[2];
+                break;
+            case Type.Rook:
+                promoteObj = prefabs[0];
+                break;
+            case Type.Queen:
+                promoteObj = prefabs[3];
+                break;
+        }
+
+        Instantiate(promoteObj, tiles[targetPos.x, targetPos.y].transform);
+        promoteObj.transform.localPosition = new Vector3(0, 0.2f, 0);
     }
 
     public void Select(Vector2Int pos, Type type, Team team) {
@@ -240,8 +268,12 @@ public class ChessBoard : MonoBehaviour
         Bishop(pos);
     }
 
-    private void SetSelectedTile(Vector2Int pos, bool attack = true) {
-        if(attack && tiles[pos.x, pos.y].transform.childCount > 0) {
+    private void SetSelectedTile(Vector2Int pos, bool attack = true, bool promote = false) {
+        if(promote && tiles[pos.x, pos.y].transform.childCount == 0 && (pos.y == 0 || pos.y == 7)) {
+            tiles[pos.x, pos.y].meshRender.material = _promotableMat;
+            tiles[pos.x, pos.y].gameObject.layer = 9;
+        }
+        else if(attack && tiles[pos.x, pos.y].transform.childCount > 0) {
             if(tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.team != team) {
                 tiles[pos.x, pos.y].meshRender.material = _attackableMat;
                 tiles[pos.x, pos.y].gameObject.layer = 8;

@@ -21,7 +21,7 @@ public class RememberMe : MonoBehaviour
     }
 
     private void SetTeam(LitJson.JsonData jsondata) {
-        if ((int)jsondata % 2 == 0) team = Team.Black;
-        else team = Team.White;
+        if ((int)jsondata == 0) team = Team.White;
+        else team = Team.Black;
     }
 }

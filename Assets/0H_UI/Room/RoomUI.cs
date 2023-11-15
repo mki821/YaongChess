@@ -11,7 +11,6 @@ public class RoomInfo {
 public class RoomUI : MonoBehaviour
 {
     [SerializeField] private VisualTreeAsset _roomInfoTemplate;
-    [SerializeField] private VisualTreeAsset _loadingPanelTemplate;
 
     private UIDocument _uiDocument;
     private VisualElement _roomList;
@@ -36,6 +35,7 @@ public class RoomUI : MonoBehaviour
         root.Q<VisualElement>("btn-maker").RegisterCallback<ClickEvent>(e => MakeRoom());
 
         _roomMakePanel = root.Q<VisualElement>("panel");
+        _loadingPanel = root.Q<VisualElement>("loading-panel");
     }
 
     private void GotoLobby(LitJson.JsonData jsondata) {
@@ -66,10 +66,9 @@ public class RoomUI : MonoBehaviour
     }
 
     private void TryConnectRoom(int roomID) {
-        TCPClient.SendBuffer("room.connect", roomID);
+        _loadingPanel.style.display = DisplayStyle.Flex;
 
-        if(_loadingPanel == null)
-            _loadingPanel = _loadingPanelTemplate.Instantiate().Q<VisualElement>("loading-panel");
+        TCPClient.SendBuffer("room.connect", roomID);
     }
 
     private void ConnectRoom(LitJson.JsonData jsondata) {
@@ -77,7 +76,7 @@ public class RoomUI : MonoBehaviour
             SceneManager.LoadScene(2);
         }
         else {
-            _loadingPanel.Clear();
+            _loadingPanel.style.display = DisplayStyle.None;
         }
     }
 }

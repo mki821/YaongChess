@@ -317,7 +317,6 @@ GameObject:
   - component: {fileID: 2123570753}
   - component: {fileID: 2123570754}
   - component: {fileID: 2123570755}
-  - component: {fileID: 2123570756}
   m_Layer: 0
   m_Name: UIDocument
   m_TagString: Untagged
@@ -371,19 +370,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roomInfoTemplate: {fileID: 9197481963319205126, guid: cbf8351a1f6649c4b86768e4f2f2fe33,
     type: 3}
-  _loadingPanelTemplate: {fileID: 0}
---- !u!114 &2123570756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2123570752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ffc83dcd83dd74998ef88d6974e825, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _loadingPanelTemplate: {fileID: 9197481963319205126, guid: 43a2882ee36808a4eb550feb732ade17,
+    type: 3}
 --- !u!1 &2144824828
 GameObject:
   m_ObjectHideFlags: 0

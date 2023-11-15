@@ -1,22 +1,11 @@
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
 
 public class Intro : MonoBehaviour
 {
-    private UIDocument _uiDocument;
-
-    private void Awake() {
-        _uiDocument = GetComponent<UIDocument>();
-    }
-
-    private void Start() {
-        var root = _uiDocument.rootVisualElement;
-
-        root.Q<VisualElement>("btn-start").RegisterCallback<ClickEvent>(HandleStartGame);
-    }
-
-    private void HandleStartGame(ClickEvent evt)
-    {
-        NetworkManager.Instance.StartGame();
+    private void Update() {
+        if(Keyboard.current.anyKey.wasPressedThisFrame || Mouse.current.leftButton.wasPressedThisFrame) {
+            NetworkManager.Instance.StartGame();
+        }
     }
 }

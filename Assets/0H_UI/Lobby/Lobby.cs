@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -25,6 +26,7 @@ public class Lobby : MonoBehaviour
 
         root.Q<VisualElement>("btn-swap").RegisterCallback<ClickEvent>(e => Swap());
         root.Q<VisualElement>("btn-start").RegisterCallback<ClickEvent>(e => TCPClient.SendBuffer("start.game", null));
+        root.Q<VisualElement>("btn-exit").RegisterCallback<ClickEvent>(e => ExitRoom());
 
         if(RememberMe.Instance.team == Team.White)
             _background.style.backgroundColor = Color.white;
@@ -55,5 +57,10 @@ public class Lobby : MonoBehaviour
 
     public void Swap() {
         TCPClient.SendBuffer("room.swap", null);
+    }
+
+    public void ExitRoom() {
+        TCPClient.SendBuffer("room.exit", null);
+        SceneManager.LoadScene(1);
     }
 }

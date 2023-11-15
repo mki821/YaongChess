@@ -44,6 +44,7 @@ class ChessInfo {
     public int[] selectTile;
     public bool isMove;
     public bool isAttack;
+    public bool promote = false;
     public int[] moveTile;
     public Team team;
     public Type type;

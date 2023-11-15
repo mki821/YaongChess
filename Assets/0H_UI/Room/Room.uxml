@@ -18,5 +18,8 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:VisualElement name="loading-panel" style="position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.77); justify-content: space-around; align-items: center; display: none;">
+            <ui:Label tabindex="-1" text="로딩 중..." parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); -unity-font-style: bold; -unity-font-definition: initial; font-size: 131px; color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
