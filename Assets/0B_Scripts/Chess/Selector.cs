@@ -34,10 +34,10 @@ public class Selector : MonoBehaviour
             if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _promotableChessBoardLayer)) {
                 if(hit.transform.childCount == 0) {
                     Vector2 screenPos = _cam.WorldToScreenPoint(hit.transform.position);
-                    screenPos.x -= 215;
-                    screenPos.y = 1920 - screenPos.y + 60;
+                    screenPos.y = 1080 - screenPos.y;
 
                     Vector2Int pos = hit.transform.GetComponent<ChessTile>().pos;
+                    Debug.Log($"{pos} | {screenPos}");
 
                     _promote.ShowPromote(pos, screenPos);
                 }

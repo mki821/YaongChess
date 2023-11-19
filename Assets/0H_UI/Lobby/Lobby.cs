@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -7,6 +6,7 @@ public class Lobby : MonoBehaviour
 {
     private int _team = 0;
     private bool _startable = false;
+    private bool _host = true; //I will change
     private UIDocument _uiDocument;
     private VisualElement _background;
 
@@ -37,13 +37,14 @@ public class Lobby : MonoBehaviour
     private void Startable(LitJson.JsonData jsondata) {
         if((int)jsondata == 2) _startable = true;
         else _startable = false;
-    }
-
-    private void StartGame(LitJson.JsonData jsondata) {
-        TCPClient.SendBuffer("room.curInfo", null);
 
         if(_startable)
             SceneManager.LoadScene(3);
+    }
+
+    private void StartGame(LitJson.JsonData jsondata) {
+        if(_host)
+            TCPClient.SendBuffer("room.curInfo", null);
     }
 
     private void SetTeam(LitJson.JsonData jsondata) {

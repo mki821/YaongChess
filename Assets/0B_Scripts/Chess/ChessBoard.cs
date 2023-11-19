@@ -18,6 +18,7 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private Material _promotableMat;
 
     private ChessTile[,] tiles = new ChessTile[8,8];
+    private CheckPiece _checkPiece;
 
     private void Awake() {
         int count = 0;
@@ -28,6 +29,7 @@ public class ChessBoard : MonoBehaviour
                 count++;
             }
         }
+        _checkPiece = GetComponent<CheckPiece>();
 
         upgradeParts["March"] = false;
         upgradeParts["Patriarchy"] = false;
@@ -44,35 +46,42 @@ public class ChessBoard : MonoBehaviour
         ChessInfo data = LitJson.JsonMapper.ToObject<ChessInfo>(jsondata.ToJson());
 
         if(data.isMove) {
-            if(data.promote) 
+            if(data.promote)
                 Promote(new Vector2Int(data.selectTile[0], data.selectTile[1]), new Vector2Int(data.moveTile[0], data.moveTile[1]), data.type);
-            Move(new Vector2Int(data.selectTile[0], data.selectTile[1]), new Vector2Int(data.moveTile[0], data.moveTile[1]), data.isAttack);
+            else
+                Move(new Vector2Int(data.selectTile[0], data.selectTile[1]), new Vector2Int(data.moveTile[0], data.moveTile[1]), data.isAttack);
         }
         else
             Select(new Vector2Int(data.selectTile[0], data.selectTile[1]), data.type, data.team);
     }
 
     private void Promote(Vector2Int pos, Vector2Int targetPos, Type type) {
-        Destroy(tiles[pos.x, pos.y].gameObject);
+        Transform targetPiece = tiles[pos.x, pos.y].transform.GetChild(0);
+        _checkPiece.icons.Remove(targetPiece.GetChild(targetPiece.childCount - 1).gameObject);
+        Destroy(targetPiece.gameObject);
+        int black = 0;
+        if(team == Team.Black) black = 4;
 
         GameObject promoteObj = null;
         switch(type) {
             case Type.Knight:
-                promoteObj = prefabs[1];
+                promoteObj = prefabs[1 + black];
                 break;
             case Type.Bishop:
-                promoteObj = prefabs[2];
+                promoteObj = prefabs[2 + black];
                 break;
             case Type.Rook:
-                promoteObj = prefabs[0];
+                promoteObj = prefabs[0 + black];
                 break;
             case Type.Queen:
-                promoteObj = prefabs[3];
+                promoteObj = prefabs[3 + black];
                 break;
         }
 
-        Instantiate(promoteObj, tiles[targetPos.x, targetPos.y].transform);
-        promoteObj.transform.localPosition = new Vector3(0, 0.2f, 0);
+        GameObject obj = Instantiate(promoteObj, tiles[targetPos.x, targetPos.y].transform);
+        obj.transform.localPosition = new Vector3(0, 0.2f, 0);
+        _checkPiece.icons.Add(obj.transform.GetChild(obj.transform.childCount - 1).gameObject);
+        DeselectAll();
     }
 
     public void Select(Vector2Int pos, Type type, Team team) {

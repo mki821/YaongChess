@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class CheckPiece : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> icons = new List<GameObject>();
+    public List<GameObject> icons = new List<GameObject>();
 
     private void Awake() {
         Transform[] allChildren = GetComponentsInChildren<Transform>();
