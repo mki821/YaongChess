@@ -357,7 +357,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488367263197271689}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.19999921, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -984,6 +984,10 @@ PrefabInstance:
     - target: {fileID: 1829178680824162, guid: c2603a89ba9d7db43acf78c84268dcb3, type: 3}
       propertyPath: m_Name
       value: Black Queen Icon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1829178680824162, guid: c2603a89ba9d7db43acf78c84268dcb3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4498080943927384, guid: c2603a89ba9d7db43acf78c84268dcb3, type: 3}
       propertyPath: m_LocalPosition.x

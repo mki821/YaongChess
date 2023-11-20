@@ -565,6 +565,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: White Horse Icon
       objectReference: {fileID: 0}
+    - target: {fileID: 1060422000270886, guid: 18daad8374bd4c1448810837ce81b5a2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4823718654781002, guid: 18daad8374bd4c1448810837ce81b5a2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

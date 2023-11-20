@@ -81,6 +81,7 @@ public class ChessBoard : MonoBehaviour
         GameObject obj = Instantiate(promoteObj, tiles[targetPos.x, targetPos.y].transform);
         obj.transform.localPosition = new Vector3(0, 0.2f, 0);
         _checkPiece.icons.Add(obj.transform.GetChild(obj.transform.childCount - 1).gameObject);
+        obj.transform.GetChild(obj.transform.childCount - 1).gameObject.SetActive(false);
         DeselectAll();
     }
 

@@ -357,7 +357,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2750731274706411875}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.19999921, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -564,6 +564,10 @@ PrefabInstance:
     - target: {fileID: 1961563389740754, guid: d6be2d0f4d8bd7d4fafe253704064ca6, type: 3}
       propertyPath: m_Name
       value: White Rook Icon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1961563389740754, guid: d6be2d0f4d8bd7d4fafe253704064ca6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4973156259262202, guid: d6be2d0f4d8bd7d4fafe253704064ca6, type: 3}
       propertyPath: m_LocalPosition.x

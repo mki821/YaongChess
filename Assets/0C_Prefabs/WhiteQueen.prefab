@@ -985,6 +985,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: White Queen Icon
       objectReference: {fileID: 0}
+    - target: {fileID: 1054155970471004, guid: 54f2aa9d526db654ca462dab8afef72c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4006493349027722, guid: 54f2aa9d526db654ca462dab8afef72c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RoomInfo {
     public int roomID;
@@ -24,7 +25,7 @@ public class RoomUI : MonoBehaviour
     private void Start() {
         TCPClient.EventListener["success.room"] = GotoLobby;
         TCPClient.EventListener["refresh.room"] = RefreshRoom;
-        TCPClient.EventListener["try.room"] = ConnectRoom;
+        TCPClient.EventListener["set.team"] += ConnectRoom;
 
         TCPClient.SendBuffer("room.refresh", null);
 
@@ -33,14 +34,21 @@ public class RoomUI : MonoBehaviour
         _roomList = root.Q<VisualElement>("room-list");
         root.Q<VisualElement>("refresh").RegisterCallback<ClickEvent>(e => TCPClient.SendBuffer("room.refresh", null));
         root.Q<VisualElement>("btn-maker").RegisterCallback<ClickEvent>(e => MakeRoom());
+        root.Q<TextField>("input-name").RegisterValueChangedCallback(e => SetName(root.Q<TextField>("input-name").text));
 
         _roomMakePanel = root.Q<VisualElement>("panel");
         _loadingPanel = root.Q<VisualElement>("loading-panel");
     }
 
+    private void OnDestroy() {
+        TCPClient.EventListener["set.team"] -= ConnectRoom;
+    }
+
     private void GotoLobby(LitJson.JsonData jsondata) {
         SceneManager.LoadScene(2);
     }
+
+    private void SetName(string name) => RememberMe.Instance.name = name;
 
     public void RefreshRoom(LitJson.JsonData jsondata) {
         _roomList.Clear();
@@ -72,11 +80,8 @@ public class RoomUI : MonoBehaviour
     }
 
     private void ConnectRoom(LitJson.JsonData jsondata) {
-        if(jsondata.ToString() == "True") {
-            SceneManager.LoadScene(2);
-        }
-        else {
-            _loadingPanel.style.display = DisplayStyle.None;
-        }
+        SceneManager.LoadScene(2);
+
+        _loadingPanel.style.display = DisplayStyle.None;
     }
 }

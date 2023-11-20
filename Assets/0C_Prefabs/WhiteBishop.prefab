@@ -733,6 +733,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: White Bishop Icon
       objectReference: {fileID: 0}
+    - target: {fileID: 1793489405523472, guid: d09bc902a9a8c2148a52e8563fe22485, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4163520364528854, guid: d09bc902a9a8c2148a52e8563fe22485, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

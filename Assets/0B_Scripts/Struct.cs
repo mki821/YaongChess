@@ -28,7 +28,7 @@ public class NetworkClient {
     public Thread thread;
 }
 
-class Box{
+class Box {
     public string command;
     public object data;
 
@@ -38,6 +38,11 @@ class Box{
     }
 
     public string ToJson() => JsonMapper.ToJson(this);
+}
+
+class Basic {
+    public object obj1;
+    public object obj2;
 }
 
 class ChessInfo {

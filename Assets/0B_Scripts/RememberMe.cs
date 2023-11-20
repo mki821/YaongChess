@@ -5,6 +5,7 @@ public class RememberMe : MonoBehaviour
     public static RememberMe Instance = null;
 
     public Team team;
+    new public string name;
 
     private void Awake() {
         if(Instance == null) {
@@ -18,10 +19,21 @@ public class RememberMe : MonoBehaviour
 
     private void Start() {
         TCPClient.EventListener["set.team"] = SetTeam;
+        TCPClient.EventListener["wyn.lobby"] = SendName;
+        TCPClient.EventListener["namenamename"] = null;
     }
 
     private void SetTeam(LitJson.JsonData jsondata) {
         if ((int)jsondata == 0) team = Team.White;
         else team = Team.Black;
+
+        TCPClient.SendBuffer("wyn.lobby", null);
+    }
+
+    private void SendName(LitJson.JsonData jsondata) {
+        TCPClient.SendBuffer("namenamename", new Basic() {
+            obj1 = name,
+            obj2 = team
+        });
     }
 }

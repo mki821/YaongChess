@@ -689,7 +689,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7933740093531985197}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.19999921, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -733,6 +733,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Black Bishop Icon
       objectReference: {fileID: 0}
+    - target: {fileID: 1599695390027566, guid: f49ad24bab8a7ac43806f52712a5c9dc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4739407407977370, guid: f49ad24bab8a7ac43806f52712a5c9dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -747,7 +751,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4739407407977370, guid: f49ad24bab8a7ac43806f52712a5c9dc, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4739407407977370, guid: f49ad24bab8a7ac43806f52712a5c9dc, type: 3}
       propertyPath: m_LocalRotation.x
@@ -755,7 +759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4739407407977370, guid: f49ad24bab8a7ac43806f52712a5c9dc, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4739407407977370, guid: f49ad24bab8a7ac43806f52712a5c9dc, type: 3}
       propertyPath: m_LocalRotation.z
@@ -767,7 +771,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4739407407977370, guid: f49ad24bab8a7ac43806f52712a5c9dc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4739407407977370, guid: f49ad24bab8a7ac43806f52712a5c9dc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z

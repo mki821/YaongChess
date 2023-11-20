@@ -8,13 +8,10 @@ public class Promote : MonoBehaviour
     private UIDocument _uiDocument;
     private VisualElement _promote;
     private Vector2Int pos;
+    private Vector2Int targetPos;
 
     private void Awake() {
         _uiDocument = GetComponent<UIDocument>();
-    }
-
-    private void Update() {
-        if(Input.GetKeyDown(KeyCode.O)) ShowPromote(Vector2Int.one, new Vector2(960, 540));
     }
 
     private void Start() {
@@ -29,12 +26,13 @@ public class Promote : MonoBehaviour
     }
 
     private void P(Type type) {
-        _selector.Promote(Type.Rook, pos);
+        _selector.Promote(type, pos, targetPos);
         SelectComplete();
     }
 
-    public void ShowPromote(Vector2Int pos, Vector2 screenPos) {
+    public void ShowPromote(Vector2Int pos, Vector2Int targetPos, Vector2 screenPos) {
         this.pos = pos;
+        this.targetPos = targetPos;
 
         _promote.style.display = DisplayStyle.Flex;
 

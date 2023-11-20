@@ -76,7 +76,7 @@ public class TCPClient : MonoBehaviour
                 Debug.LogError($"{decode["command"]} Trigger는 찾을 수 없습니다.");
             }
             else {
-                commandQueue.Enqueue(() => CallBack.Invoke(decode["data"]));
+                commandQueue.Enqueue(() => CallBack?.Invoke(decode["data"]));
             }
         }
     }
