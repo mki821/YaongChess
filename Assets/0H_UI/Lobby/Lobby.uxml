@@ -2,7 +2,7 @@
     <Style src="project://database/Assets/0H_UI/Lobby/Lobby.uss?fileID=7433441132597879392&amp;guid=4df218c3372a35b44b3d16570b39217c&amp;type=3#Lobby" />
     <ui:VisualElement name="container" style="flex-grow: 1;">
         <ui:VisualElement name="content" style="background-color: rgb(48, 120, 83); width: 100%; height: 100%; align-items: center;">
-            <ui:Label tabindex="-1" text="방 이름" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font-definition: initial; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Bold&apos;); color: rgb(255, 255, 255); font-size: 199px; margin-bottom: 0; padding-bottom: 0; margin-top: 18px;" />
+            <ui:Label tabindex="-1" text="방 이름" parse-escape-sequences="true" display-tooltip-when-elided="true" name="room-name" style="-unity-font-definition: initial; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Bold&apos;); color: rgb(255, 255, 255); font-size: 199px; margin-bottom: 0; padding-bottom: 0; margin-top: 18px;" />
             <ui:VisualElement style="width: 1078px; height: 576px; flex-direction: row; align-items: center; justify-content: space-between;">
                 <ui:VisualElement class="team-sheet">
                     <ui:VisualElement style="width: 250px; height: 250px; background-image: url(&apos;project://database/Assets/0B_Sprites/My%20sunday%20is%20precious.png?fileID=2800000&amp;guid=8b4363e145830434fb1282009a3dd1f0&amp;type=3#My sunday is precious&apos;);" />
@@ -10,9 +10,9 @@
                         <ui:Label tabindex="-1" text="비어있습니다" parse-escape-sequences="true" display-tooltip-when-elided="true" name="player1-name" style="color: rgb(255, 255, 255); -unity-text-align: upper-left; font-size: 38px; margin-left: 11px; -unity-font-style: bold;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement class="team-sheet" style="width: 518px; height: 444px; align-items: center; justify-content: space-around; background-color: rgb(0, 0, 0); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;">
+                <ui:VisualElement name="VisualElement" class="team-sheet" style="background-color: rgb(0, 0, 0);">
                     <ui:VisualElement style="width: 250px; height: 250px; background-image: url(&apos;project://database/Assets/0B_Sprites/My%20sunday%20is%20precious.png?fileID=2800000&amp;guid=8b4363e145830434fb1282009a3dd1f0&amp;type=3#My sunday is precious&apos;);" />
-                    <ui:VisualElement style="width: 508px; height: 99px; background-color: rgb(58, 58, 58); justify-content: space-around;">
+                    <ui:VisualElement style="width: 508px; height: 99px; background-color: rgb(58, 58, 58); justify-content: space-around; margin-top: -56px;">
                         <ui:Label tabindex="-1" text="비어있습니다" parse-escape-sequences="true" display-tooltip-when-elided="true" name="player2-name" style="color: rgb(255, 255, 255); -unity-text-align: upper-left; font-size: 38px; margin-left: 11px; -unity-font-style: bold;" />
                     </ui:VisualElement>
                 </ui:VisualElement>

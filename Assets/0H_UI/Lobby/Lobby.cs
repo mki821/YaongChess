@@ -2,14 +2,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using LitJson;
+using TMPro;
 
 public class Lobby : MonoBehaviour
 {
     private int _team = 0;
     private bool _startable = false;
-    private bool _host = true; //I will change
+    private bool _tryStart = false;
     private UIDocument _uiDocument;
     private VisualElement _background;
+    private Label _roomName;
     private Label player1;
     private Label player2;
 
@@ -32,21 +34,28 @@ public class Lobby : MonoBehaviour
         root.Q<VisualElement>("btn-swap").RegisterCallback<ClickEvent>(e => Swap());
         root.Q<VisualElement>("btn-start").RegisterCallback<ClickEvent>(e => TCPClient.SendBuffer("start.game", null));
         root.Q<VisualElement>("btn-exit").RegisterCallback<ClickEvent>(e => ExitRoom());
+        _roomName = root.Q<Label>("room-name");
         player1 = root.Q<Label>("player1-name");
         player2 = root.Q<Label>("player2-name");
+        
+        TCPClient.SendBuffer("room.curInfo", null);
     }
 
     private void Startable(JsonData jsondata) {
-        if((int)jsondata == 2) _startable = true;
-        else _startable = false;
+        Basic data = JsonMapper.ToObject<Basic>(jsondata.ToJson());
 
-        if(_startable)
+        _roomName.text = (string)data.obj2;
+
+        _startable = (int)data.obj1 == 2;
+
+        if(_tryStart && _startable)
             SceneManager.LoadScene(3);
+        else _tryStart = false;
     }
 
     private void StartGame(JsonData jsondata) {
-        if(_host)
-            TCPClient.SendBuffer("room.curInfo", null);
+        _tryStart = true;
+        TCPClient.SendBuffer("room.curInfo", null);
     }
 
     private void SetTeam(JsonData jsondata) {
@@ -57,11 +66,12 @@ public class Lobby : MonoBehaviour
     private void SetName(JsonData jsondata) {
         Basic data = JsonMapper.ToObject<Basic>(jsondata.ToJson());
 
-        if(player1.text == "비어있습니다") player2.text = "비어있습니다";
-        else if(player2.text == "비어있습니다") player1.text = "비어있습니다";
-
-        if((int)data.obj2 == 2) player1.text = (string)data.obj1;
-        else player2.text = (string)data.obj1;
+        if((int)data.obj2 == 2) {
+            player1.text = (string)data.obj1;
+        }
+        else {
+            player2.text = (string)data.obj1;
+        }
     }
 
     public void Swap() {

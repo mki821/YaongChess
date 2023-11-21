@@ -32,16 +32,7 @@ public class ShowCard : MonoBehaviour
         root.Q<VisualElement>("selected-card-btn").RegisterCallback<MouseDownEvent>(e => ShowSelectedCards());
     }
 
-    private void Update() {
-        if(Keyboard.current.spaceKey.wasPressedThisFrame) {
-            ShowCards();
-        }
-        else if(Keyboard.current.kKey.wasPressedThisFrame) {
-            ShowSelectedCards();
-        }
-    }
-
-    private void ShowCards() {
+    public void ShowCards() {
         _background.style.visibility = Visibility.Visible;
         for(int i = 0; i < 3; i++) {
             UpgradeParts card = _upgradeParts[Random.Range(0, _upgradeParts.Count)];
@@ -87,7 +78,8 @@ public class ShowCard : MonoBehaviour
     }
 
     private void SelectCard(UpgradeParts card) {
-        ChessBoard.upgradeParts[card.name] = true;
+        if(card.name == "8ttruck") TCPClient.SendBuffer("8ttruck", RememberMe.Instance.team);
+        else ChessBoard.upgradeParts[card.name] = true;
         _contentBox.Clear();
         _background.style.visibility = Visibility.Hidden;
 

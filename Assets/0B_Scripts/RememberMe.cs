@@ -5,7 +5,7 @@ public class RememberMe : MonoBehaviour
     public static RememberMe Instance = null;
 
     public Team team;
-    new public string name;
+    new public string name = "플레이어";
 
     private void Awake() {
         if(Instance == null) {

@@ -10,7 +10,7 @@
             <ui:VisualElement name="refresh" style="width: 100px; height: 100px; background-image: url(&apos;project://database/Assets/0B_Sprites/25429.png?fileID=21300000&amp;guid=d2e3ee0859039ba4b81d9eb1a2c8a958&amp;type=3#25429&apos;); left: 1006px;" />
         </ui:VisualElement>
         <ui:ScrollView name="room-list" horizontal-scroller-visibility="Hidden" />
-        <ui:VisualElement name="panel" style="width: 100%; height: 100%; position: absolute; background-color: rgba(0, 0, 0, 0.65); align-items: center; justify-content: space-around; display: none;">
+        <ui:VisualElement name="panel" style="width: 100%; height: 100%; position: absolute; background-color: rgba(0, 0, 0, 0.77); align-items: center; justify-content: space-around; display: none;">
             <ui:VisualElement name="box" style="width: 550px; height: 700px; justify-content: space-around; align-items: center; background-color: rgb(96, 96, 96);">
                 <ui:Label tabindex="-1" text="방 생성" parse-escape-sequences="true" display-tooltip-when-elided="true" name="title" style="width: 400px; height: 100px; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Bold&apos;); -unity-text-align: middle-center; -unity-font-definition: initial; color: rgb(255, 255, 255); font-size: 105px; -unity-font-style: normal; -unity-text-outline-width: 3px; -unity-text-outline-color: rgb(0, 0, 0);" />
                 <ui:TextField picking-mode="Ignore" value="방 이름" name="room-name" style="width: 400px; height: 100px; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); -unity-font-definition: initial; -unity-font-style: bold; font-size: 51px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-top-left-radius: 9px; border-top-right-radius: 9px; border-bottom-right-radius: 9px; border-bottom-left-radius: 9px;" />
@@ -21,6 +21,11 @@
         </ui:VisualElement>
         <ui:VisualElement name="loading-panel" style="position: absolute; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.77); justify-content: space-around; align-items: center; display: none;">
             <ui:Label tabindex="-1" text="로딩 중..." parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); -unity-font-style: bold; -unity-font-definition: initial; font-size: 131px; color: rgb(255, 255, 255);" />
+        </ui:VisualElement>
+        <ui:VisualElement name="setting-panel" style="width: 100%; height: 100%; position: absolute; align-items: center; justify-content: space-around; background-color: rgba(0, 0, 0, 0.77); display: none;">
+            <ui:VisualElement style="width: 1668px; height: 916px; background-color: rgb(94, 94, 94);">
+                <ui:EnumField label="해상도" type="Resolution, Assembly-CSharp" value="ㅤ1920x1080" name="resolution-enum" style="-unity-font-definition: initial; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); font-size: 46px; -unity-text-align: middle-left;" />
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

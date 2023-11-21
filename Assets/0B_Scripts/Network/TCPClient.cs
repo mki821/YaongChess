@@ -6,6 +6,7 @@ using System.Threading;
 using LitJson;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class TCPClient : MonoBehaviour
 {
@@ -31,15 +32,20 @@ public class TCPClient : MonoBehaviour
     }
 
     private void Start() {
-        tc = new TcpClient(IP, port);
-        stream = tc.GetStream();
+        try {
+            tc = new TcpClient(IP, port);
+            stream = tc.GetStream();
 
-        Thread thread = new Thread(ReceiveBuffer);
-        thread.Start();
+            Thread thread = new Thread(ReceiveBuffer);
+            thread.Start();
+        }
+        catch {
+            SceneManager.LoadScene(4);
+        }
     }
 
     private void OnDestroy() {
-        tc.Close();
+        if(instance == this) tc.Close();
     }
 
     private void Update() {
@@ -69,15 +75,19 @@ public class TCPClient : MonoBehaviour
             }
             Debug.Log(output);
 
-            JsonData decode = JsonMapper.ToObject(output.ToString().Replace("\\ENDBUFFER\\", ""));
+            string[] datas = output.ToString().Split("\\ENDBUFFER\\");
 
-            UnityAction<JsonData> CallBack;
-            if (!EventListener.TryGetValue((string)decode["command"], out CallBack)){
-                Debug.LogError($"{decode["command"]} Trigger는 찾을 수 없습니다.");
-            }
-            else {
-                commandQueue.Enqueue(() => CallBack?.Invoke(decode["data"]));
-            }
+            for(int i = 0; i < datas.Length - 1; ++i) {
+                JsonData decode = JsonMapper.ToObject(datas[i]);
+
+                UnityAction<JsonData> CallBack;
+                if (!EventListener.TryGetValue((string)decode["command"], out CallBack)){
+                    Debug.LogError($"{decode["command"]} Trigger는 찾을 수 없습니다.");
+                }
+                else {
+                    commandQueue.Enqueue(() => CallBack?.Invoke(decode["data"]));
+                }
+            }  
         }
     }
 }

@@ -16,9 +16,12 @@ public class ChessBoard : MonoBehaviour
     [SerializeField] private Material _selectableMat;
     [SerializeField] private Material _attackableMat;
     [SerializeField] private Material _promotableMat;
-
+    [SerializeField] private Ingame _ingame;
+    [SerializeField] private ShowCard _showCard;
+    
     private ChessTile[,] tiles = new ChessTile[8,8];
     private CheckPiece _checkPiece;
+    private int _turn = 0;
 
     private void Awake() {
         int count = 0;
@@ -33,13 +36,22 @@ public class ChessBoard : MonoBehaviour
 
         upgradeParts["March"] = false;
         upgradeParts["Patriarchy"] = false;
+        upgradeParts["elephant"] = false;
+        upgradeParts["8ttruck"] = false;
+        upgradeParts["rearborder"] = false;
+        upgradeParts["spanisharmada"] = false;
 
         if ((team = RememberMe.Instance.team) == Team.Black) _camTrm.rotation = Quaternion.Euler(0, 180, 0);
     }
 
     private void Start() {
         TCPClient.EventListener["chess"] = ReceiveChessInfo;
+        TCPClient.EventListener["8ttruck"] = Truck;
         TCPClient.EventListener["disconnect.room"] = (LitJson.JsonData jsondata) => SceneManager.LoadScene(1);
+    }
+
+    private void Truck(LitJson.JsonData jsondata) {
+        if((int)jsondata != (int)RememberMe.Instance.team) upgradeParts["8ttruck"] = true;
     }
 
     public void ReceiveChessInfo(LitJson.JsonData jsondata) {
@@ -50,6 +62,7 @@ public class ChessBoard : MonoBehaviour
                 Promote(new Vector2Int(data.selectTile[0], data.selectTile[1]), new Vector2Int(data.moveTile[0], data.moveTile[1]), data.type);
             else
                 Move(new Vector2Int(data.selectTile[0], data.selectTile[1]), new Vector2Int(data.moveTile[0], data.moveTile[1]), data.isAttack);
+            _ingame.ChangeTeam();
         }
         else
             Select(new Vector2Int(data.selectTile[0], data.selectTile[1]), data.type, data.team);
@@ -121,6 +134,14 @@ public class ChessBoard : MonoBehaviour
             else if (pos.x + 1 < 8 && pos.y - 1 >= 0 && tiles[pos.x + 1, pos.y - 1].transform.childCount > 0 && team != tiles[pos.x + 1, pos.y - 1].GetComponentInChildren<ChessPiece>().piece.team) {
                 SetSelectedTile(new Vector2Int(pos.x + 1, pos.y - 1));
             }
+            if(upgradeParts["rearborder"]) {
+                if (pos.x - 1 >= 0 && pos.y + 1 < 8 && tiles[pos.x - 1, pos.y + 1].transform.childCount > 0 && team != tiles[pos.x - 1, pos.y + 1].GetComponentInChildren<ChessPiece>().piece.team) {
+                    SetSelectedTile(new Vector2Int(pos.x - 1, pos.y + 1));
+                }
+                else if (pos.x + 1 < 8 && pos.y + 1 < 8 && tiles[pos.x + 1, pos.y + 1].transform.childCount > 0 && team != tiles[pos.x + 1, pos.y + 1].GetComponentInChildren<ChessPiece>().piece.team) {
+                    SetSelectedTile(new Vector2Int(pos.x + 1, pos.y + 1));
+                }
+            }
         }
         else if (team == Team.White) {
             if (pos.x - 1 >= 0 && pos.y + 1 < 8 && tiles[pos.x - 1, pos.y + 1].transform.childCount > 0 && team != tiles[pos.x - 1, pos.y + 1].GetComponentInChildren<ChessPiece>().piece.team) {
@@ -129,8 +150,50 @@ public class ChessBoard : MonoBehaviour
             else if (pos.x + 1 < 8 && pos.y + 1 < 8 && tiles[pos.x + 1, pos.y + 1].transform.childCount > 0 && team != tiles[pos.x + 1, pos.y + 1].GetComponentInChildren<ChessPiece>().piece.team) {
                 SetSelectedTile(new Vector2Int(pos.x + 1, pos.y + 1));
             }
+            if(upgradeParts["rearborder"]) {
+                if (pos.x - 1 >= 0 && pos.y - 1 >= 0 && tiles[pos.x - 1, pos.y - 1].transform.childCount > 0 && team != tiles[pos.x - 1, pos.y - 1].GetComponentInChildren<ChessPiece>().piece.team) {
+                    SetSelectedTile(new Vector2Int(pos.x - 1, pos.y - 1));
+                }
+                else if (pos.x + 1 < 8 && pos.y - 1 >= 0 && tiles[pos.x + 1, pos.y - 1].transform.childCount > 0 && team != tiles[pos.x + 1, pos.y - 1].GetComponentInChildren<ChessPiece>().piece.team) {
+                    SetSelectedTile(new Vector2Int(pos.x + 1, pos.y - 1));
+                }
+            }
         }
 
+        if(upgradeParts["rearborder"]) {
+            if(tiles[pos.x, pos.y - 1].transform.childCount > 0) return;
+                SetSelectedTile(new Vector2Int(pos.x, pos.y - 1), false);
+            if(tiles[pos.x, pos.y + 1].transform.childCount > 0) return;
+                SetSelectedTile(new Vector2Int(pos.x, pos.y + 1), false);
+
+            if(upgradeParts["March"]) {
+                if(tiles[pos.x, pos.y - 2].transform.childCount > 0) return;
+                SetSelectedTile(new Vector2Int(pos.x, pos.y - 2), false);
+                if(tiles[pos.x, pos.y + 2].transform.childCount > 0) return;
+                SetSelectedTile(new Vector2Int(pos.x, pos.y + 2), false);
+            }
+        }
+        else {
+            if (team == Team.Black) {
+                if(tiles[pos.x, pos.y - 1].transform.childCount > 0) return;
+                    SetSelectedTile(new Vector2Int(pos.x, pos.y - 1), false);
+            }
+            else {
+                if(tiles[pos.x, pos.y + 1].transform.childCount > 0) return;
+                    SetSelectedTile(new Vector2Int(pos.x, pos.y + 1), false);
+            }
+            if(upgradeParts["March"]) {
+                if (team == Team.Black) {
+                    if(tiles[pos.x, pos.y - 2].transform.childCount > 0) return;
+                    SetSelectedTile(new Vector2Int(pos.x, pos.y - 2), false);
+                }
+                else {
+                    if(tiles[pos.x, pos.y + 2].transform.childCount > 0) return;
+                    SetSelectedTile(new Vector2Int(pos.x, pos.y + 2), false);
+                }
+            }
+        }
+        
         if (tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.firstMove) {
             if (team == Team.Black)
                 SetSelectedTile(new Vector2Int(pos.x, pos.y - 2), false);
@@ -144,69 +207,152 @@ public class ChessBoard : MonoBehaviour
                     SetSelectedTile(new Vector2Int(pos.x, pos.y + 3), false);
             }
         }
-        if (team == Team.Black)
-            SetSelectedTile(new Vector2Int(pos.x, pos.y - 1), false);
-        else
-            SetSelectedTile(new Vector2Int(pos.x, pos.y + 1), false);
-
-        if(upgradeParts["March"]) {
-            if (team == Team.Black)
-                SetSelectedTile(new Vector2Int(pos.x, pos.y - 2), false);
-            else
-                SetSelectedTile(new Vector2Int(pos.x, pos.y + 2), false);
-        }
     }
 
     private void Rook(Vector2Int pos)
     {
-        for(int i = 1; i < 8; i++) {
-            if(pos.x + i < 8) {
-                SetSelectedTile(new Vector2Int(pos.x + i, pos.y));
-                if(tiles[pos.x + i, pos.y].transform.childCount > 0) break;
+        if(upgradeParts["8ttruck"]) {
+            bool changed = false;
+            Vector2Int lastTile = Vector2Int.zero;
+            for(int i = 1; i < 8; i++) {
+                if(pos.x + i < 8) {
+                    if(tiles[pos.x + i, pos.y].transform.childCount > 0) {
+                        if(tiles[pos.x + i, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.team != team) {
+                            lastTile = new Vector2Int(pos.x + i, pos.y);
+                            changed = true;
+                        }
+                        break;
+                    }
+                    lastTile = new Vector2Int(pos.x + i, pos.y);
+                }
+                else break;
             }
-            else break;
+            if(changed) {
+                SetSelectedTile(new Vector2Int(lastTile.x, lastTile.y));
+                changed = false;
+            }
+            for(int i = 1; i < 8; i++) {
+                if(pos.x - i >= 0) {
+                    if(tiles[pos.x - i, pos.y].transform.childCount > 0) {
+                        if(tiles[pos.x - i, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.team != team) {
+                            lastTile = new Vector2Int(pos.x - i, pos.y);
+                            changed = true;
+                        }
+                        break;
+                    }
+                    lastTile = new Vector2Int(pos.x - i, pos.y);
+                }
+                else break;
+            }
+            if(changed) {
+                SetSelectedTile(new Vector2Int(lastTile.x, lastTile.y));
+                changed = false;
+            }
+            for(int i = 1; i < 8; i++) {
+                if(pos.y + i < 8) {
+                    if(tiles[pos.x, pos.y + i].transform.childCount > 0) {
+                        if(tiles[pos.x, pos.y + i].transform.GetChild(0).GetComponent<ChessPiece>().piece.team != team) {
+                            lastTile = new Vector2Int(pos.x, pos.y + i);
+                            changed = true;
+                        }
+                        break;
+                    }
+                    lastTile = new Vector2Int(pos.x, pos.y + i);
+                }
+                else break;
+            }
+            if(changed) {
+                SetSelectedTile(new Vector2Int(lastTile.x, lastTile.y));
+                changed = false;
+            }
+            for(int i = 1; i < 8; i++) {
+                if(pos.y - i >= 0) {
+                    if(tiles[pos.x, pos.y - i].transform.childCount > 0) {
+                        if(tiles[pos.x, pos.y - i].transform.GetChild(0).GetComponent<ChessPiece>().piece.team != team) {
+                            lastTile = new Vector2Int(pos.x, pos.y - i);
+                            changed = true;
+                        }
+                        break;
+                    }
+                    lastTile = new Vector2Int(pos.x, pos.y - i);
+                }
+                else break;
+            }
+            if(changed) {
+                SetSelectedTile(new Vector2Int(lastTile.x, lastTile.y));
+                changed = false;
+            }
         }
-        for(int i = 1; i < 8; i++) {
-            if(pos.x - i >= 0) {
-                SetSelectedTile(new Vector2Int(pos.x - i, pos.y));
-                if(tiles[pos.x - i, pos.y].transform.childCount > 0) break;
+        else {
+            for(int i = 1; i < 8; i++) {
+                if(pos.x + i < 8) {
+                    SetSelectedTile(new Vector2Int(pos.x + i, pos.y));
+                    if(tiles[pos.x + i, pos.y].transform.childCount > 0) break;
+                }
+                else break;
             }
-            else break;
-        }
-        for(int i = 1; i < 8; i++) {
-            if(pos.y + i < 8) {
-                SetSelectedTile(new Vector2Int(pos.x, pos.y + i));
-                if(tiles[pos.x, pos.y + i].transform.childCount > 0) break;
+            for(int i = 1; i < 8; i++) {
+                if(pos.x - i >= 0) {
+                    SetSelectedTile(new Vector2Int(pos.x - i, pos.y));
+                    if(tiles[pos.x - i, pos.y].transform.childCount > 0) break;
+                }
+                else break;
             }
-            else break;
-        }
-        for(int i = 1; i < 8; i++) {
-            if(pos.y - i >= 0) {
-                SetSelectedTile(new Vector2Int(pos.x, pos.y - i));
-                if(tiles[pos.x, pos.y - i].transform.childCount > 0) break;
+            for(int i = 1; i < 8; i++) {
+                if(pos.y + i < 8) {
+                    SetSelectedTile(new Vector2Int(pos.x, pos.y + i));
+                    if(tiles[pos.x, pos.y + i].transform.childCount > 0) break;
+                }
+                else break;
             }
-            else break;
+            for(int i = 1; i < 8; i++) {
+                if(pos.y - i >= 0) {
+                    SetSelectedTile(new Vector2Int(pos.x, pos.y - i));
+                    if(tiles[pos.x, pos.y - i].transform.childCount > 0) break;
+                }
+                else break;
+            }
         }
     }
 
     private void Knight(Vector2Int pos)
     {
-        if(pos.x + 2 >= 0 && pos.x + 2 < 8 && pos.y + 1 >= 0 && pos.y + 1 < 8)
-            SetSelectedTile(new Vector2Int(pos.x + 2, pos.y + 1));
-        if(pos.x + 2 >= 0 && pos.x + 2 < 8 && pos.y - 1 > 0 && pos.y - 1 < 8)
-            SetSelectedTile(new Vector2Int(pos.x + 2, pos.y - 1));
-        if(pos.x + 1 >= 0 && pos.x + 1 < 8 && pos.y + 2 >= 0 && pos.y + 2 < 8)
-            SetSelectedTile(new Vector2Int(pos.x + 1, pos.y + 2));
-        if(pos.x + 1 >= 0 && pos.x + 1 < 8 && pos.y - 2 >= 0 && pos.y - 2 < 8)
-            SetSelectedTile(new Vector2Int(pos.x + 1, pos.y - 2));
-        if(pos.x - 1 >= 0 && pos.x - 1 < 8 && pos.y + 2 >= 0 && pos.y + 2 < 8)
-            SetSelectedTile(new Vector2Int(pos.x - 1, pos.y + 2));
-        if(pos.x - 1 >= 0 && pos.x - 1 < 8 && pos.y - 2 >= 0 && pos.y - 2 < 8)
-            SetSelectedTile(new Vector2Int(pos.x - 1, pos.y - 2));
-        if(pos.x - 2 >= 0 && pos.x - 2 < 8 && pos.y + 1 >= 0 && pos.y + 1 < 8)
-            SetSelectedTile(new Vector2Int(pos.x - 2, pos.y + 1));
-        if(pos.x - 2 >= 0 && pos.x - 2 < 8 && pos.y - 1 >= 0 && pos.y - 1 < 8)
-            SetSelectedTile(new Vector2Int(pos.x - 2, pos.y - 1));
+        if(upgradeParts["elephant"]) {
+            if(pos.x + 3 >= 0 && pos.x + 3 < 8 && pos.y + 2 >= 0 && pos.y + 2 < 8)
+                SetSelectedTile(new Vector2Int(pos.x + 3, pos.y + 2));
+            if(pos.x + 3 >= 0 && pos.x + 3 < 8 && pos.y - 2 > 0 && pos.y - 2 < 8)
+                SetSelectedTile(new Vector2Int(pos.x + 3, pos.y - 2));
+            if(pos.x + 2 >= 0 && pos.x + 2 < 8 && pos.y + 3 >= 0 && pos.y + 3 < 8)
+                SetSelectedTile(new Vector2Int(pos.x + 2, pos.y + 3));
+            if(pos.x + 2 >= 0 && pos.x + 2 < 8 && pos.y - 3 >= 0 && pos.y - 3 < 8)
+                SetSelectedTile(new Vector2Int(pos.x + 2, pos.y - 3));
+            if(pos.x - 2 >= 0 && pos.x - 2 < 8 && pos.y + 3 >= 0 && pos.y + 3 < 8)
+                SetSelectedTile(new Vector2Int(pos.x - 2, pos.y + 3));
+            if(pos.x - 2 >= 0 && pos.x - 2 < 8 && pos.y - 3 >= 0 && pos.y - 3 < 8)
+                SetSelectedTile(new Vector2Int(pos.x - 2, pos.y - 3));
+            if(pos.x - 3 >= 0 && pos.x - 3 < 8 && pos.y + 2 >= 0 && pos.y + 2 < 8)
+                SetSelectedTile(new Vector2Int(pos.x - 3, pos.y + 2));
+            if(pos.x - 3 >= 0 && pos.x - 3 < 8 && pos.y - 2 >= 0 && pos.y - 2 < 8)
+                SetSelectedTile(new Vector2Int(pos.x - 3, pos.y - 2));
+        }
+        else {
+            if(pos.x + 2 >= 0 && pos.x + 2 < 8 && pos.y + 1 >= 0 && pos.y + 1 < 8)
+                SetSelectedTile(new Vector2Int(pos.x + 2, pos.y + 1));
+            if(pos.x + 2 >= 0 && pos.x + 2 < 8 && pos.y - 1 > 0 && pos.y - 1 < 8)
+                SetSelectedTile(new Vector2Int(pos.x + 2, pos.y - 1));
+            if(pos.x + 1 >= 0 && pos.x + 1 < 8 && pos.y + 2 >= 0 && pos.y + 2 < 8)
+                SetSelectedTile(new Vector2Int(pos.x + 1, pos.y + 2));
+            if(pos.x + 1 >= 0 && pos.x + 1 < 8 && pos.y - 2 >= 0 && pos.y - 2 < 8)
+                SetSelectedTile(new Vector2Int(pos.x + 1, pos.y - 2));
+            if(pos.x - 1 >= 0 && pos.x - 1 < 8 && pos.y + 2 >= 0 && pos.y + 2 < 8)
+                SetSelectedTile(new Vector2Int(pos.x - 1, pos.y + 2));
+            if(pos.x - 1 >= 0 && pos.x - 1 < 8 && pos.y - 2 >= 0 && pos.y - 2 < 8)
+                SetSelectedTile(new Vector2Int(pos.x - 1, pos.y - 2));
+            if(pos.x - 2 >= 0 && pos.x - 2 < 8 && pos.y + 1 >= 0 && pos.y + 1 < 8)
+                SetSelectedTile(new Vector2Int(pos.x - 2, pos.y + 1));
+            if(pos.x - 2 >= 0 && pos.x - 2 < 8 && pos.y - 1 >= 0 && pos.y - 1 < 8)
+                SetSelectedTile(new Vector2Int(pos.x - 2, pos.y - 1));
+        }
     }
 
     private void Bishop(Vector2Int pos)
@@ -276,6 +422,7 @@ public class ChessBoard : MonoBehaviour
 
         Rook(pos);
         Bishop(pos);
+        if(upgradeParts["spanisharmada"]) Knight(pos);
     }
 
     private void SetSelectedTile(Vector2Int pos, bool attack = true, bool promote = false) {
@@ -303,6 +450,9 @@ public class ChessBoard : MonoBehaviour
         DeselectAll();
 
         if(isAttack) {
+            if(tiles[tar.x, tar.y].transform.GetChild(0).gameObject.name.Contains("King")) {
+                TCPClient.SendBuffer("end.game", curTeam);
+            }
             Destroy(tiles[tar.x, tar.y].transform.GetChild(0).gameObject);
         }
         else if(tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.type == Type.King) {
@@ -322,6 +472,9 @@ public class ChessBoard : MonoBehaviour
         trm.localPosition = new Vector3(0, trm.localPosition.y, 0);
 
         curTeam = curTeam == Team.White ? Team.Black : Team.White;
+
+        if(++_turn == 8) _showCard.ShowCards();
+        _ingame.Turn(_turn);
     }
 
     public void DeselectAll() {

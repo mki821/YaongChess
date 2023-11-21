@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class RoomInfo {
     public int roomID;
@@ -25,7 +24,7 @@ public class RoomUI : MonoBehaviour
     private void Start() {
         TCPClient.EventListener["success.room"] = GotoLobby;
         TCPClient.EventListener["refresh.room"] = RefreshRoom;
-        TCPClient.EventListener["set.team"] += ConnectRoom;
+        TCPClient.EventListener["try.room"] = ConnectRoom;
 
         TCPClient.SendBuffer("room.refresh", null);
 
@@ -38,10 +37,6 @@ public class RoomUI : MonoBehaviour
 
         _roomMakePanel = root.Q<VisualElement>("panel");
         _loadingPanel = root.Q<VisualElement>("loading-panel");
-    }
-
-    private void OnDestroy() {
-        TCPClient.EventListener["set.team"] -= ConnectRoom;
     }
 
     private void GotoLobby(LitJson.JsonData jsondata) {
@@ -74,14 +69,12 @@ public class RoomUI : MonoBehaviour
     }
 
     private void TryConnectRoom(int roomID) {
-        _loadingPanel.style.display = DisplayStyle.Flex;
-
         TCPClient.SendBuffer("room.connect", roomID);
+        _loadingPanel.style.display = DisplayStyle.Flex;
     }
 
     private void ConnectRoom(LitJson.JsonData jsondata) {
-        SceneManager.LoadScene(2);
-
-        _loadingPanel.style.display = DisplayStyle.None;
+        if((string)jsondata == "True") SceneManager.LoadScene(2);
+        else _loadingPanel.style.display = DisplayStyle.None;
     }
 }

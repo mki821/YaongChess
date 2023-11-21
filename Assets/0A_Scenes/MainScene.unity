@@ -10519,6 +10519,8 @@ MonoBehaviour:
   _selectableMat: {fileID: 2100000, guid: 3618f755857955e4583a533b97ff6cd1, type: 2}
   _attackableMat: {fileID: 2100000, guid: 183af7fc643bb1d499b3e014f70f5691, type: 2}
   _promotableMat: {fileID: 2100000, guid: f3e21a83744c96c498748503dd56ec83, type: 2}
+  _ingame: {fileID: 1988011785}
+  _showCard: {fileID: 1988011783}
 --- !u!114 &1508242063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13625,6 +13627,7 @@ GameObject:
   - component: {fileID: 1988011781}
   - component: {fileID: 1988011783}
   - component: {fileID: 1988011784}
+  - component: {fileID: 1988011785}
   m_Layer: 0
   m_Name: UIDocument
   m_TagString: Untagged
@@ -13679,10 +13682,12 @@ MonoBehaviour:
   _cardTemplate: {fileID: 9197481963319205126, guid: 3fb4f28ca8be86841944a72664c95e12,
     type: 3}
   _upgradeParts:
-  - {fileID: 11400000, guid: f09a44301b519104ab17764a033d6653, type: 2}
   - {fileID: 11400000, guid: 559d9a322d8001949933f809f19963f3, type: 2}
-  - {fileID: 11400000, guid: b80c3e0032d720a4b9c96a1f5e5e5a7d, type: 2}
-  - {fileID: 11400000, guid: 96da3d48e60b6f04da59ffa4f5981cb6, type: 2}
+  - {fileID: 11400000, guid: 00f8285975f910b42ae4ad512bfe9803, type: 2}
+  - {fileID: 11400000, guid: 399df2a244504ab4c895c236d86c9335, type: 2}
+  - {fileID: 11400000, guid: 42b746a68381279449b1888ffbccb03c, type: 2}
+  - {fileID: 11400000, guid: f09a44301b519104ab17764a033d6653, type: 2}
+  - {fileID: 11400000, guid: 29c38e5d8e8871a4280ed1ca9537d66f, type: 2}
 --- !u!114 &1988011784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13696,6 +13701,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selector: {fileID: 713201656}
+--- !u!114 &1988011785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1988011780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1d31270a6d3c943b1c1f959990cb67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2001734078
 GameObject:
   m_ObjectHideFlags: 0

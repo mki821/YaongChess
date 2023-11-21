@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9fa454208f5df8438f1672f9247d57e, type: 3}
+  m_Name: "\uD578\uB4E4\uC774 \uACE0\uC7A5\uB09C 8\uD1A4 \uD2B8\uB7ED"
+  m_EditorClassIdentifier: 
+  name: 8ttruck
+  partsName: "\uD578\uB4E4\uC774 \uACE0\uC7A5\uB09C\\n8\uD1A4 \uD2B8\uB7ED"
+  partsSprite: {fileID: 21300000, guid: 8b4363e145830434fb1282009a3dd1f0, type: 3}
+  effect: "\uC0C1\uB300 \uB8E9\uC774 \uC6C0\uC9C1\uC77C \uC218\\n\uC788\uB294 \uCD5C\uB300
+    \uAC70\uB9AC\uB85C\uB9CC \uC774\uB3D9 \uAC00\uB2A5\uD558\uB2E4"
