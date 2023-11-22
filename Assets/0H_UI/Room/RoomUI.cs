@@ -12,7 +12,7 @@ public class RoomUI : MonoBehaviour
 {
     [SerializeField] private VisualTreeAsset _roomInfoTemplate;
 
-    private UIDocument _uiDocument;
+    private static UIDocument _uiDocument;
     private VisualElement _roomList;
     private VisualElement _loadingPanel;
     private VisualElement _roomMakePanel;
@@ -76,5 +76,9 @@ public class RoomUI : MonoBehaviour
     private void ConnectRoom(LitJson.JsonData jsondata) {
         if((string)jsondata == "True") SceneManager.LoadScene(2);
         else _loadingPanel.style.display = DisplayStyle.None;
+    }
+
+    public static void ErrorPanel() {
+        _uiDocument.rootVisualElement.Q<VisualElement>("error-panel").style.display = DisplayStyle.Flex;
     }
 }

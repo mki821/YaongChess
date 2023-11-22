@@ -40,7 +40,8 @@ public class TCPClient : MonoBehaviour
             thread.Start();
         }
         catch {
-            SceneManager.LoadScene(4);
+            RoomUI.ErrorPanel();
+            return;
         }
     }
 
