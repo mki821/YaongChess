@@ -16,6 +16,7 @@ public class Lobby : MonoBehaviour
     private Label player2;
 
     private void Awake() {
+        SoundManager.Instance.SetBGM(2);
         _uiDocument = GetComponent<UIDocument>();
     }
 

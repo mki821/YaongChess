@@ -172,6 +172,17 @@ MonoBehaviour:
   backgroundMusicVolume: 50
   soundEffectVolume: 50
   _audioMixer: {fileID: 24100000, guid: a046ab0d88d922e459bb2e9011a839f7, type: 2}
+  _bgmMixer: {fileID: -2210231648824165395, guid: a046ab0d88d922e459bb2e9011a839f7,
+    type: 2}
+  _sfxMixer: {fileID: -4543778439643280936, guid: a046ab0d88d922e459bb2e9011a839f7,
+    type: 2}
+  _bgmAudios:
+  - {fileID: 8300000, guid: bad02313569e387418c5b06c2e15d80e, type: 3}
+  - {fileID: 8300000, guid: 9b5454ed9c63ff9459e74911609af583, type: 3}
+  - {fileID: 8300000, guid: 9db78cadc4aedec45bcbaaf03ef29a54, type: 3}
+  - {fileID: 8300000, guid: a93cd01fa249f04469ce725e449c761a, type: 3}
+  _sfxAudios:
+  - {fileID: 8300000, guid: 88f2747782d726a40a0b82368c66a9b3, type: 3}
 --- !u!82 &187385157
 AudioSource:
   m_ObjectHideFlags: 0
@@ -183,11 +194,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -2210231648824165395, guid: a046ab0d88d922e459bb2e9011a839f7,
     type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: bad02313569e387418c5b06c2e15d80e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

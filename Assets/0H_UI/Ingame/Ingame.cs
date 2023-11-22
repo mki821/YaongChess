@@ -16,6 +16,7 @@ public class Ingame : MonoBehaviour
     private float t = 0;
 
     private void Awake() {
+        SoundManager.Instance.SetBGM(3);
         _uiDocument = GetComponent<UIDocument>();
 
         TCPClient.EventListener["end.game"] = EndGame;

@@ -13,7 +13,11 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioMixerGroup _bgmMixer;
     [SerializeField] private AudioMixerGroup _sfxMixer;
 
-    private AudioSource _audioSource;
+    [SerializeField] private AudioClip[] _bgmAudios;
+    [SerializeField] private AudioClip[] _sfxAudios;
+
+    private AudioSource _bgmAudioSource;
+    private AudioSource _sfxAudioSource;
 
     private void Awake() {
         if(Instance == null) {
@@ -22,7 +26,18 @@ public class SoundManager : MonoBehaviour
         }
         else Destroy(gameObject);
 
-        _audioSource = GetComponent<AudioSource>();
+        _bgmAudioSource = GetComponent<AudioSource>();
+        _sfxAudioSource = gameObject.AddComponent<AudioSource>();
+    }
+
+    public void SetBGM(int index) {
+        _bgmAudioSource.clip = _bgmAudios[index];
+        _bgmAudioSource.Play();
+    }
+
+    public void PlaySFX(int index) {
+        _sfxAudioSource.clip = _sfxAudios[index];
+        _sfxAudioSource.Play();
     }
 
     public void SetMasterVolume(int volume) {

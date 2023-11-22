@@ -444,6 +444,8 @@ public class ChessBoard : MonoBehaviour
     }
 
     public void Move(Vector2Int pos, Vector2Int tar, bool isAttack) {
+        SoundManager.Instance.PlaySFX(0);
+        
         if (tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.firstMove)
             tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.firstMove = false;
 

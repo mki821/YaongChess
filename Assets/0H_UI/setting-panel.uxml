@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="setting-panel" style="width: 100%; height: 100%; position: absolute; align-items: center; justify-content: space-around; background-color: rgba(0, 0, 0, 0.77); display: flex;">
+        <ui:VisualElement style="width: 1668px; height: 916px; background-color: rgb(94, 94, 94); padding-top: 21px; padding-right: 21px; padding-bottom: 21px; padding-left: 21px;">
+            <ui:Label tabindex="-1" text="설정" parse-escape-sequences="true" display-tooltip-when-elided="true" name="title" style="-unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Bold&apos;); -unity-font-definition: initial; font-size: 57px; color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; margin-bottom: 26px;" />
+            <ui:EnumField label="해상도           " type="Resolution, Assembly-CSharp" value="ㅤ1920x1080" name="resolution-enum" style="-unity-font-definition: initial; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); font-size: 46px; -unity-text-align: middle-left;" />
+            <ui:Toggle label="FullScreen  " name="fullscreen" value="true" style="font-size: 46px; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); -unity-font-definition: initial;" />
+            <ui:VisualElement name="complete-btn" style="width: 147px; height: 74px; align-items: center; justify-content: space-around; background-color: rgb(238, 238, 238); position: absolute; top: 820px; left: 1492px;">
+                <ui:Label tabindex="-1" text="완료" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); -unity-font-definition: initial; font-size: 51px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="exit-btn" style="width: 244px; height: 74px; align-items: center; justify-content: space-around; background-color: rgb(238, 238, 238); position: absolute; top: 820px; left: 33px;">
+                <ui:Label tabindex="-1" text="게임 종료" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); -unity-font-definition: initial; font-size: 51px;" />
+            </ui:VisualElement>
+            <ui:SliderInt picking-mode="Ignore" label="전체 소리      " value="50" high-value="100" name="master-slider" style="font-size: 46px; margin-top: 120px; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); -unity-font-definition: initial;" />
+            <ui:SliderInt picking-mode="Ignore" label="배경음           " value="50" high-value="100" name="bgm-slider" style="font-size: 46px; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); -unity-font-definition: initial;" />
+            <ui:SliderInt picking-mode="Ignore" label="효과음           " value="50" high-value="100" name="sfx-slider" style="font-size: 46px; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); -unity-font-definition: initial;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

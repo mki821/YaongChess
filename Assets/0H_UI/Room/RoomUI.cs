@@ -18,6 +18,7 @@ public class RoomUI : MonoBehaviour
     private VisualElement _roomMakePanel;
 
     private void Awake() {
+        SoundManager.Instance.SetBGM(1);
         _uiDocument = GetComponent<UIDocument>();
     }
 

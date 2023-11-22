@@ -30,6 +30,7 @@ public class Setting : MonoBehaviour
         _settingPanel.Q<EnumField>("resolution-enum").SetValueWithoutNotify(_resolution);
         _settingPanel.Q<Toggle>("fullscreen").RegisterValueChangedCallback(e => _fullScreen = e.newValue);
         _settingPanel.Q<VisualElement>("complete-btn").RegisterCallback<ClickEvent>(e => CompleteSetting());
+        _settingPanel.Q<VisualElement>("exit-btn").RegisterCallback<ClickEvent>(e => Application.Quit());
 
         _settingPanel.Q<SliderInt>("master-slider").RegisterValueChangedCallback(e => SoundManager.Instance.SetMasterVolume(e.newValue));
         _settingPanel.Q<SliderInt>("bgm-slider").RegisterValueChangedCallback(e => SoundManager.Instance.SetBGMVolume(e.newValue));
@@ -58,6 +59,5 @@ public class Setting : MonoBehaviour
         }
 
         OnAndOffSettingPanel();
-
     }
 }
