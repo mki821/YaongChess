@@ -40,6 +40,7 @@ public class ChessBoard : MonoBehaviour
         upgradeParts["8ttruck"] = false;
         upgradeParts["rearborder"] = false;
         upgradeParts["spanisharmada"] = false;
+        upgradeParts["doyouknowmi"] = false;
 
         if ((team = RememberMe.Instance.team) == Team.Black) _camTrm.rotation = Quaternion.Euler(0, 180, 0);
     }
@@ -108,13 +109,15 @@ public class ChessBoard : MonoBehaviour
                     Pawn(pos);
                     break;
                 case Type.Rook:
-                    Rook(pos);
+                    if(upgradeParts["doyouknowmi"]) Bishop(pos);
+                    else Rook(pos);
                     break;
                 case Type.Knight:
                     Knight(pos);
                     break;
                 case Type.Bishop:
-                    Bishop(pos);
+                    if(upgradeParts["doyouknowmi"]) Rook(pos);
+                    else Bishop(pos);
                     break;
                 case Type.King:
                     King(pos);
@@ -161,10 +164,11 @@ public class ChessBoard : MonoBehaviour
         }
 
         if(upgradeParts["rearborder"]) {
-            if(tiles[pos.x, pos.y - 1].transform.childCount > 0) return;
+            if(tiles[pos.x, pos.y - 1].transform.childCount <= 0)
                 SetSelectedTile(new Vector2Int(pos.x, pos.y - 1), false);
-            if(tiles[pos.x, pos.y + 1].transform.childCount > 0) return;
+            if(tiles[pos.x, pos.y + 1].transform.childCount  <= 0)
                 SetSelectedTile(new Vector2Int(pos.x, pos.y + 1), false);
+            if(tiles[pos.x, pos.y - 1].transform.childCount <= 0 && tiles[pos.x, pos.y + 1].transform.childCount  <= 0) return;
 
             if(upgradeParts["March"]) {
                 if(tiles[pos.x, pos.y - 2].transform.childCount > 0) return;
@@ -455,6 +459,7 @@ public class ChessBoard : MonoBehaviour
             if(tiles[tar.x, tar.y].transform.GetChild(0).gameObject.name.Contains("King")) {
                 TCPClient.SendBuffer("end.game", curTeam);
             }
+            _checkPiece.icons.Remove(tiles[tar.x, tar.y].transform.GetChild(0).GetChild(tiles[tar.x, tar.y].transform.GetChild(0).childCount - 1).gameObject);
             Destroy(tiles[tar.x, tar.y].transform.GetChild(0).gameObject);
         }
         else if(tiles[pos.x, pos.y].transform.GetChild(0).GetComponent<ChessPiece>().piece.type == Type.King) {

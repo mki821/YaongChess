@@ -64,11 +64,11 @@ public class Ingame : MonoBehaviour
 
     public void ChangeTeam() {
         if(_curTeam == Team.White) {
-            _teamIcon.style.unityBackgroundImageTintColor = Color.white;
+            _teamIcon.style.unityBackgroundImageTintColor = Color.black;
             _curTeam = Team.Black;
         }
         else {
-            _teamIcon.style.unityBackgroundImageTintColor = Color.black;
+            _teamIcon.style.unityBackgroundImageTintColor = Color.white;
             _curTeam = Team.White;
         }
     }

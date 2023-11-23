@@ -10,10 +10,12 @@ public enum Resolution {
 
 public class Setting : MonoBehaviour
 {
+    [SerializeField] private bool _intro = false;
+
     private UIDocument _uiDocument;
     private VisualElement _settingPanel;
 
-    private Resolution _resolution;
+    public static Resolution _resolution;
     private bool _fullScreen = true;
 
     private void Awake() {
@@ -21,6 +23,8 @@ public class Setting : MonoBehaviour
     }
 
     private void Start() {
+        if(_intro) return;
+        
         var root = _uiDocument.rootVisualElement;
 
         _settingPanel = root.Q<VisualElement>("setting-panel");

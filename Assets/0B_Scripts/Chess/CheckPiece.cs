@@ -25,7 +25,8 @@ public class CheckPiece : MonoBehaviour
     
     private void OnAndOffIcon(bool show) {
         foreach(GameObject icon in icons) {
-            icon.SetActive(show);
+            if(icon == null) icons.Remove(icon);
+            else icon.SetActive(show);
         }
     }
 }
