@@ -38,7 +38,12 @@ public class Promote : MonoBehaviour
 
         _promote.style.left = new StyleLength(screenPos.x - 215);
         _promote.style.top = new StyleLength(screenPos.y - 120);
+        
+        _selector.isPromote = true;
     }
 
-    public void SelectComplete() => _promote.style.display = DisplayStyle.None;
+    public void SelectComplete() {
+        _promote.style.display = DisplayStyle.None;
+        _selector.isPromote = false;
+    }
 }

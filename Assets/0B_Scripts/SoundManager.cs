@@ -28,6 +28,14 @@ public class SoundManager : MonoBehaviour
 
         _bgmAudioSource = GetComponent<AudioSource>();
         _sfxAudioSource = gameObject.AddComponent<AudioSource>();
+
+        
+        float setVolume = masterVolume * 0.4f - 40;
+        _audioMixer.SetFloat("Master", setVolume == -40f ? -80f : setVolume);
+        setVolume = backgroundMusicVolume * 0.4f - 40;
+        _audioMixer.SetFloat("Master", setVolume == -40f ? -80f : setVolume);
+        setVolume = soundEffectVolume * 0.4f - 40;
+        _audioMixer.SetFloat("Master", setVolume == -40f ? -80f : setVolume);
     }
 
     public void SetBGM(int index) {

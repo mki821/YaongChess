@@ -9,8 +9,6 @@ public class ShowCard : MonoBehaviour
     [SerializeField] private VisualTreeAsset _cardTemplate;
     [SerializeField] private List<UpgradeParts> _upgradeParts;
 
-    private bool _isShowSelectedCards = false;
-
     private UIDocument _uiDocument;
     private VisualElement _contentBox;
     private VisualElement _selectedCardBox;
@@ -28,8 +26,6 @@ public class ShowCard : MonoBehaviour
         _contentBox = root.Q<VisualElement>("content");
         _selectedCardBox = root.Q<VisualElement>("selected-card");
         _background = root.Q<VisualElement>("background");
-
-        root.Q<VisualElement>("selected-card-btn").RegisterCallback<MouseDownEvent>(e => ShowSelectedCards());
     }
 
     public void ShowCards() {
@@ -56,25 +52,20 @@ public class ShowCard : MonoBehaviour
     }
 
     private void ShowSelectedCards() {
-        _isShowSelectedCards = !_isShowSelectedCards;
+        for(int i = 0; i < _selectedCards.Length; i++) {
+        if(_selectedCards[i] == null) break;
 
-        if(_isShowSelectedCards) {
-            for(int i = 0; i < _selectedCards.Length; i++) {
-            if(_selectedCards[i] == null) break;
+        var template = _cardTemplate.Instantiate().Q<VisualElement>("card");
 
-            var template = _cardTemplate.Instantiate().Q<VisualElement>("card");
+        template.Q<Label>("name").text = _selectedCards[i].partsName;
+        template.Q<VisualElement>("image").style.backgroundImage = new StyleBackground(_selectedCards[i].partsSprite);
+        template.Q<Label>("effect").text = _selectedCards[i].effect;
+        template.AddToClassList("on");
 
-            template.Q<Label>("name").text = _selectedCards[i].partsName;
-            template.Q<VisualElement>("image").style.backgroundImage = new StyleBackground(_selectedCards[i].partsSprite);
-            template.Q<Label>("effect").text = _selectedCards[i].effect;
-            template.AddToClassList("on");
+        template.RegisterCallback<ClickEvent>(e => SelectCard(_selectedCards[i]));
 
-            template.RegisterCallback<ClickEvent>(e => SelectCard(_selectedCards[i]));
-
-            _selectedCardBox.Add(template);
-            }
+        _selectedCardBox.Add(template);
         }
-        else _selectedCardBox.Clear();
     }
 
     private void SelectCard(UpgradeParts card) {
@@ -85,5 +76,7 @@ public class ShowCard : MonoBehaviour
 
         if(_selectedCards[0] == null) _selectedCards[0] = card;
         else _selectedCards[1] = card;
+
+        ShowSelectedCards();
     }
 }

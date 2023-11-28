@@ -10,7 +10,8 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontNames:
   - Spoqa Han Sans Neo
-  fallbackFontReferences: []
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: b9178f6a804ed1d479095f77e354e183, type: 3}
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

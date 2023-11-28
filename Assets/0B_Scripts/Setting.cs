@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public enum Resolution {
@@ -36,13 +37,24 @@ public class Setting : MonoBehaviour
         _settingPanel.Q<VisualElement>("complete-btn").RegisterCallback<ClickEvent>(e => CompleteSetting());
         _settingPanel.Q<VisualElement>("exit-btn").RegisterCallback<ClickEvent>(e => Application.Quit());
 
+        _settingPanel.Q<SliderInt>("master-slider").SetValueWithoutNotify(SoundManager.Instance.masterVolume);
+        _settingPanel.Q<SliderInt>("bgm-slider").SetValueWithoutNotify(SoundManager.Instance.backgroundMusicVolume);
+        _settingPanel.Q<SliderInt>("sfx-slider").SetValueWithoutNotify(SoundManager.Instance.soundEffectVolume);
+
         _settingPanel.Q<SliderInt>("master-slider").RegisterValueChangedCallback(e => SoundManager.Instance.SetMasterVolume(e.newValue));
         _settingPanel.Q<SliderInt>("bgm-slider").RegisterValueChangedCallback(e => SoundManager.Instance.SetBGMVolume(e.newValue));
         _settingPanel.Q<SliderInt>("sfx-slider").RegisterValueChangedCallback(e => SoundManager.Instance.SetSFXVolume(e.newValue));
     }
 
-    private void OnAndOffSettingPanel() {
-        _settingPanel.style.display = _settingPanel.style.display == DisplayStyle.None ? DisplayStyle.Flex : DisplayStyle.None;
+    private void Update() {
+        if(Keyboard.current.escapeKey.wasPressedThisFrame) {
+            OnAndOffSettingPanel();
+        }
+    }
+
+    public void OnAndOffSettingPanel(bool auto = false) {
+        if(auto) _settingPanel.style.display = DisplayStyle.None;
+        else _settingPanel.style.display = _settingPanel.style.display == DisplayStyle.None ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
     private void SetResolution(ChangeEvent<Enum> e) {

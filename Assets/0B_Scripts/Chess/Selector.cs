@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class Selector : MonoBehaviour
 {
+    public bool isPromote = false;
+
     [SerializeField] private ChessBoard _chessBoard;
     [SerializeField] private Promote _promote;
     [SerializeField] private InputReader _inputReader;
@@ -34,7 +36,18 @@ public class Selector : MonoBehaviour
             if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _promotableChessBoardLayer)) {
                 if(hit.transform.childCount == 0) {
                     Vector2 screenPos = _cam.WorldToScreenPoint(hit.transform.position);
-                    screenPos.y = 1080 - screenPos.y;
+
+                    switch(Setting._resolution) {
+                        case Resolution.ㅤ1280x720:
+                            screenPos.y = 720 - screenPos.y;
+                            break;
+                        case Resolution.ㅤ1920x1080:
+                            screenPos.y = 1080 - screenPos.y;
+                            break;
+                        case Resolution.ㅤ2560x1440:
+                            screenPos.y = 1440 - screenPos.y;
+                            break;
+                    }
 
                     Vector2Int pos = hit.transform.GetComponent<ChessTile>().pos;
 
@@ -74,10 +87,9 @@ public class Selector : MonoBehaviour
                     _promote.SelectComplete();
                 }
             }
-            else {
+            else if(!isPromote) {
                 _chessBoard.DeselectAll();
                 _currentBoard = -Vector2Int.one;
-                _promote.SelectComplete();
             }
         }
     }

@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using LitJson;
-using TMPro;
 
 public class Lobby : MonoBehaviour
 {
@@ -10,7 +9,6 @@ public class Lobby : MonoBehaviour
     private bool _startable = false;
     private bool _tryStart = false;
     private UIDocument _uiDocument;
-    private VisualElement _background;
     private Label _roomName;
     private Label player1;
     private Label player2;
@@ -29,8 +27,6 @@ public class Lobby : MonoBehaviour
         TCPClient.EventListener["disconnect.room"] = (JsonData jsondata) => SceneManager.LoadScene(1);
 
         var root = _uiDocument.rootVisualElement;
-
-        _background = root.Q<VisualElement>("content");
 
         root.Q<VisualElement>("btn-swap").RegisterCallback<ClickEvent>(e => Swap());
         root.Q<VisualElement>("btn-start").RegisterCallback<ClickEvent>(e => TCPClient.SendBuffer("start.game", null));
@@ -69,9 +65,11 @@ public class Lobby : MonoBehaviour
 
         if((int)data.obj2 == 2) {
             player1.text = (string)data.obj1;
+            if(!_startable) player2.text = "비어있습니다";
         }
         else {
             player2.text = (string)data.obj1;
+            if(!_startable) player1.text = "비어있습니다";
         }
     }
 

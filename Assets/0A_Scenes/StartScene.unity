@@ -168,9 +168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a20213837fbb3e42843779430fa75cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterVolume: 50
-  backgroundMusicVolume: 50
-  soundEffectVolume: 50
+  masterVolume: 80
+  backgroundMusicVolume: 80
+  soundEffectVolume: 80
   _audioMixer: {fileID: 24100000, guid: a046ab0d88d922e459bb2e9011a839f7, type: 2}
   _bgmMixer: {fileID: -2210231648824165395, guid: a046ab0d88d922e459bb2e9011a839f7,
     type: 2}

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Patriarchy
   partsName: "\uAC00\uBD80\uC7A5\uC81C"
-  partsSprite: {fileID: 21300000, guid: 15ee23c98f169f543b8939a4c76d052c, type: 3}
+  partsSprite: {fileID: 21300000, guid: 1d67680e4d635a44e83b666c43d16887, type: 3}
   effect: "\uD0B9\uACFC \uD038\uC758\\n\uC774\uB3D9\uBC29\uC2DD\uC774 \uBC14\uB010\uB2E4"

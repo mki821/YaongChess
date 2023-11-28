@@ -335,8 +335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eefef3327c69a74386e2e44f664ecb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IP: 172.31.3.146
-  port: 5500
+  IP: 14.51.77.174
+  port: 6974
 --- !u!4 &1027271464
 Transform:
   m_ObjectHideFlags: 0
@@ -429,6 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81399bf3772a574da8b439b9e0f7d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _intro: 0
 --- !u!1 &2144824828
 GameObject:
   m_ObjectHideFlags: 0

@@ -52,6 +52,8 @@ public class RoomUI : MonoBehaviour
         var roomInfos = LitJson.JsonMapper.ToObject<RoomInfo[]>((string)jsondata);
 
         foreach(RoomInfo item in roomInfos) {
+            if(item == null) continue;
+
             var template = _roomInfoTemplate.Instantiate().Q<VisualElement>("room");
 
             template.Q<Label>("room-name").text = item.roomName;

@@ -12,14 +12,17 @@ public class Ingame : MonoBehaviour
     private Label _ingameTime;
     private Label _ingameTurn;
     private Team _curTeam = Team.White;
+    private Setting _setting;
     private int _curSecond = 0;
     private float t = 0;
 
     private void Awake() {
         SoundManager.Instance.SetBGM(3);
         _uiDocument = GetComponent<UIDocument>();
+        _setting = GetComponent<Setting>();
 
         TCPClient.EventListener["end.game"] = EndGame;
+        TCPClient.EventListener["surrender.game"] = Surrender;
     }
 
     private void Start() {
@@ -30,6 +33,7 @@ public class Ingame : MonoBehaviour
         _teamIcon = root.Q<VisualElement>("what-team");
         _ingameTime = root.Q<Label>("ingame-time");
         _ingameTurn = root.Q<Label>("turn-text");
+        root.Q<VisualElement>("surrender-btn").RegisterCallback<ClickEvent>(e => TCPClient.SendBuffer("surrender.game", RememberMe.Instance.team));
     }
 
     private void Update() {
@@ -43,9 +47,20 @@ public class Ingame : MonoBehaviour
     }
 
     private void EndGame(LitJson.JsonData jsondata) {
+        _setting.OnAndOffSettingPanel(true);
         _endingPanel.style.display =  DisplayStyle.Flex;
 
         if((int)jsondata == (int)RememberMe.Instance.team) _endingPanel.Q<Label>("end-text").text = "승리";
+        else _endingPanel.Q<Label>("end-text").text = "패배";
+
+        StartCoroutine(GotoMainCountdown());
+    }
+
+    private void Surrender(LitJson.JsonData jsondata) {
+        _setting.OnAndOffSettingPanel(true);
+        _endingPanel.style.display =  DisplayStyle.Flex;
+
+        if((int)jsondata != (int)RememberMe.Instance.team) _endingPanel.Q<Label>("end-text").text = "승리";
         else _endingPanel.Q<Label>("end-text").text = "패배";
 
         StartCoroutine(GotoMainCountdown());

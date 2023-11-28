@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: March
   partsName: "\uD589\uC9C4"
-  partsSprite: {fileID: 21300000, guid: efc93b1fd115e5948aca62eb8921d84e, type: 3}
+  partsSprite: {fileID: 21300000, guid: feb971feb2dc6ee4c805933047f385dd, type: 3}
   effect: "\uD3F0\uC758 \uC804\uC9C4 \uAC70\uB9AC\uAC00\\n\uD55C \uCE78\uC529 \uB298\uC5B4\uB09C\uB2E4"
