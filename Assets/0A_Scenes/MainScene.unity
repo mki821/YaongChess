@@ -5179,6 +5179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84eaa7fcae98f534dbd7271f4ee31899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPromote: 0
   _chessBoard: {fileID: 1508242062}
   _promote: {fileID: 1988011784}
   _inputReader: {fileID: 11400000, guid: 18271fcb931688e45a256551a43eabe2, type: 2}
@@ -13774,7 +13775,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 559d9a322d8001949933f809f19963f3, type: 2}
   - {fileID: 11400000, guid: 00f8285975f910b42ae4ad512bfe9803, type: 2}
   - {fileID: 11400000, guid: 399df2a244504ab4c895c236d86c9335, type: 2}
-  - {fileID: 11400000, guid: 42b746a68381279449b1888ffbccb03c, type: 2}
   - {fileID: 11400000, guid: f09a44301b519104ab17764a033d6653, type: 2}
   - {fileID: 11400000, guid: 29c38e5d8e8871a4280ed1ca9537d66f, type: 2}
   - {fileID: 11400000, guid: f1f01463d20fd2d43aedab354ef1800e, type: 2}

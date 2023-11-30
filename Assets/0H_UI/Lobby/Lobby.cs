@@ -23,7 +23,6 @@ public class Lobby : MonoBehaviour
         TCPClient.EventListener["namenamename"] = SetName;
         TCPClient.EventListener["start.game"] = StartGame;
         TCPClient.EventListener["info.room"] = Startable;
-        TCPClient.EventListener["namenamename"] = SetName;
         TCPClient.EventListener["disconnect.room"] = (JsonData jsondata) => SceneManager.LoadScene(1);
 
         var root = _uiDocument.rootVisualElement;
@@ -35,6 +34,7 @@ public class Lobby : MonoBehaviour
         player1 = root.Q<Label>("player1-name");
         player2 = root.Q<Label>("player2-name");
         
+        _tryStart = false;
         TCPClient.SendBuffer("room.curInfo", null);
     }
 
@@ -56,11 +56,17 @@ public class Lobby : MonoBehaviour
     }
 
     private void SetTeam(JsonData jsondata) {
+        _tryStart = false;
+        TCPClient.SendBuffer("room.curInfo", null);
+
         _team = (int)jsondata;
         RememberMe.Instance.team = _team == 0 ? Team.White : Team.Black;
     }
 
     private void SetName(JsonData jsondata) {
+        _tryStart = false;
+        TCPClient.SendBuffer("room.curInfo", null);
+
         Basic data = JsonMapper.ToObject<Basic>(jsondata.ToJson());
 
         if((int)data.obj2 == 2) {

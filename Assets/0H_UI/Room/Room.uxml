@@ -1,8 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Template name="RoomInfo" src="project://database/Assets/0H_UI/Room/RoomInfo.uxml?fileID=9197481963319205126&amp;guid=cbf8351a1f6649c4b86768e4f2f2fe33&amp;type=3#RoomInfo" />
     <ui:Template name="setting-panel" src="project://database/Assets/0H_UI/setting-panel.uxml?fileID=9197481963319205126&amp;guid=9324b150b2a31344eb8ee5147e0ff40a&amp;type=3#setting-panel" />
     <Style src="project://database/Assets/0H_UI/Room/Room.uss?fileID=7433441132597879392&amp;guid=22ef8264a4663434ea0eef07a86a96ab&amp;type=3#Room" />
-    <ui:VisualElement name="container" style="flex-grow: 1; background-color: rgb(123, 123, 123); align-items: center;">
+    <ui:VisualElement style="background-image: url(&apos;project://database/Assets/0B_Sprites/2102.i518.009_sky_cloud_evening_illustration.jpg?fileID=2800000&amp;guid=5d9385eb3604dfa4296b9110336c363f&amp;type=3#2102.i518.009_sky_cloud_evening_illustration&apos;); position: absolute; width: 100%; height: 119%; top: -164px;" />
+    <ui:VisualElement name="container" style="flex-grow: 1; background-color: rgba(123, 123, 123, 0.8); align-items: center;">
         <ui:VisualElement name="content" style="height: 174px; flex-direction: row; align-items: center; width: 98%; border-bottom-color: rgb(0, 0, 0); border-top-width: 2px; border-right-width: 2px; border-bottom-width: 2px; border-left-width: 2px; justify-content: space-around;">
             <ui:VisualElement name="setting-btn" style="background-image: url(&apos;project://database/Assets/0B_Sprites/settings.245x256.png?fileID=2800000&amp;guid=668e7cda1ee9eee4e85b5b0f53afcc58&amp;type=3#settings.245x256&apos;); background-color: rgba(0, 0, 0, 0); width: 128px; height: 128px; -unity-background-image-tint-color: rgb(255, 255, 255); position: absolute; left: 12px;" />
             <ui:Label tabindex="-1" text="방 목록" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Bold&apos;); -unity-font-definition: initial; -unity-font-style: normal; color: rgb(255, 255, 255); font-size: 122px; margin-left: 66px; padding-left: 0; margin-right: 55px; position: relative; -unity-text-align: upper-center;" />
@@ -10,12 +10,12 @@
                 <ui:Label tabindex="-1" text="방 생성" parse-escape-sequences="true" display-tooltip-when-elided="true" style="color: rgb(255, 255, 255); -unity-font-definition: initial; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); -unity-font-style: bold; font-size: 60px;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:ScrollView name="room-list" horizontal-scroller-visibility="Hidden" style="height: 769px; width: 1876px;">
-            <ui:Instance template="RoomInfo" name="RoomInfo" />
-        </ui:ScrollView>
-        <ui:VisualElement name="bottom" style="flex-grow: 1; width: 100%; background-color: rgb(192, 192, 192); flex-direction: row; justify-content: space-around; align-items: center;">
-            <ui:VisualElement name="refresh" style="width: 100px; height: 100px; background-image: url(&apos;project://database/Assets/0B_Sprites/25429.png?fileID=21300000&amp;guid=d2e3ee0859039ba4b81d9eb1a2c8a958&amp;type=3#25429&apos;); left: 23px; position: absolute;" />
-            <ui:TextField picking-mode="Ignore" value="이름을 입력하세요" name="input-name" style="width: 564px; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); -unity-font-definition: initial; position: relative; height: 69px; font-size: 46px; color: rgb(0, 0, 0); -unity-text-align: upper-left;" />
+        <ui:ScrollView name="room-list" horizontal-scroller-visibility="Hidden" style="height: 769px; width: 1876px;" />
+        <ui:VisualElement name="bottom" style="flex-grow: 1; width: 100%; background-color: rgba(0, 0, 0, 0.43); flex-direction: row; justify-content: space-around; align-items: center;">
+            <ui:VisualElement style="width: 805px; flex-direction: row; justify-content: space-around; align-items: center;">
+                <ui:TextField picking-mode="Ignore" value="이름을 입력하세요" name="input-name" style="width: 564px; -unity-font: resource(&apos;Fonts/SpoqaHanSansNeo-Regular&apos;); -unity-font-definition: initial; position: relative; height: 69px; font-size: 46px; color: rgb(0, 0, 0); -unity-text-align: upper-left;" />
+                <ui:VisualElement name="refresh" style="width: 100px; height: 100px; background-image: url(&apos;project://database/Assets/0B_Sprites/25429.png?fileID=21300000&amp;guid=d2e3ee0859039ba4b81d9eb1a2c8a958&amp;type=3#25429&apos;);" />
+            </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="panel" style="width: 100%; height: 100%; position: absolute; background-color: rgba(0, 0, 0, 0.77); align-items: center; justify-content: space-around; display: none;">
             <ui:VisualElement name="box" style="width: 550px; height: 700px; justify-content: space-around; align-items: center; background-color: rgb(96, 96, 96);">

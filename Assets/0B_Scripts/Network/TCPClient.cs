@@ -34,6 +34,10 @@ public class TCPClient : MonoBehaviour
     private void Start() {
         try {
             tc = new TcpClient(IP, port);
+            if(!tc.Connected) {
+                RoomUI.ErrorPanel();
+                return;
+            }
             stream = tc.GetStream();
 
             Thread thread = new Thread(ReceiveBuffer);

@@ -15,5 +15,5 @@ MonoBehaviour:
   name: spanisharmada
   partsName: "\uBB34\uC801 \uD568\uB300"
   partsSprite: {fileID: 21300000, guid: 78ae30b010349c743ad2a92a4856bb42, type: 3}
-  effect: "\uD038\uC774 \uB098\uC774\uD2B8\uB85C\uB3C4\\n\uC6C0\uC9C8\uC77C \uC218
-    \uC788\uB2E4"
+  effect: "\uD038\uC774 \uB098\uC774\uD2B8\uCC98\uB7FC\uB3C4\\n\uC6C0\uC9C1\uC77C
+    \uC218 \uC788\uB2E4"
