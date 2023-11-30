@@ -69,8 +69,7 @@ public class ShowCard : MonoBehaviour
     }
 
     private void SelectCard(UpgradeParts card) {
-        if(card.name == "8ttruck") TCPClient.SendBuffer("8ttruck", RememberMe.Instance.team);
-        else ChessBoard.upgradeParts[card.name] = true;
+        ChessBoard.upgradeParts[card.name] = true;
         _contentBox.Clear();
         _background.style.visibility = Visibility.Hidden;
 

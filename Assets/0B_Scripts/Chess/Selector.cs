@@ -12,6 +12,7 @@ public class Selector : MonoBehaviour
     [SerializeField] private LayerMask _selectableChessBoardLayer;
     [SerializeField] private LayerMask _attackableChessBoardLayer;
     [SerializeField] private LayerMask _promotableChessBoardLayer;
+    [SerializeField] private LayerMask _castlingableChessBoardLayer;
 
     private Vector2Int _currentBoard = -Vector2Int.one;
     private Camera _cam;
@@ -34,25 +35,23 @@ public class Selector : MonoBehaviour
         if(_chessBoard.curTeam == _chessBoard.team) {
             RaycastHit hit;
             if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _promotableChessBoardLayer)) {
-                if(hit.transform.childCount == 0) {
-                    Vector2 screenPos = _cam.WorldToScreenPoint(hit.transform.position);
+                Vector2 screenPos = _cam.WorldToScreenPoint(hit.transform.position);
 
-                    switch(Setting._resolution) {
-                        case Resolution.ㅤ1280x720:
-                            screenPos.y = 720 - screenPos.y;
-                            break;
-                        case Resolution.ㅤ1920x1080:
-                            screenPos.y = 1080 - screenPos.y;
-                            break;
-                        case Resolution.ㅤ2560x1440:
-                            screenPos.y = 1440 - screenPos.y;
-                            break;
-                    }
-
-                    Vector2Int pos = hit.transform.GetComponent<ChessTile>().pos;
-
-                    _promote.ShowPromote(_currentBoard, pos, screenPos);
+                switch(Setting._resolution) {
+                    case Resolution.ㅤ1280x720:
+                        screenPos.y = 720 - screenPos.y;
+                        break;
+                    case Resolution.ㅤ1920x1080:
+                        screenPos.y = 1080 - screenPos.y;
+                        break;
+                    case Resolution.ㅤ2560x1440:
+                        screenPos.y = 1440 - screenPos.y;
+                        break;
                 }
+
+                Vector2Int pos = hit.transform.GetComponent<ChessTile>().pos;
+
+                _promote.ShowPromote(_currentBoard, pos, screenPos);
             }
             else if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _selectableChessBoardLayer)) {
                 if(_currentBoard != -Vector2Int.one) {
@@ -84,6 +83,19 @@ public class Selector : MonoBehaviour
                         SendChessInfo(piece.type, _currentBoard, true, pos, true);
                         _currentBoard = -Vector2Int.one;
                     }
+                    _promote.SelectComplete();
+                }
+            }
+            else if(Physics.Raycast(_cam.ScreenPointToRay(Mouse.current.position.ReadValue()), out hit, Mathf.Infinity, _castlingableChessBoardLayer)) {
+                if(_currentBoard != -Vector2Int.one) {
+                    Vector2Int pos = hit.transform.GetComponent<ChessTile>().pos;
+
+                    SendChessInfo(Type.None, _currentBoard, true, pos);
+                    if(pos.x < 3) SendChessInfo(Type.None, new Vector2Int(0, pos.y), true, new Vector2Int(pos.x + 1, pos.y));
+                    else if(pos.x > 4) SendChessInfo(Type.None, new Vector2Int(7, pos.y), true, new Vector2Int(pos.x - 1, pos.y));
+
+                    _currentBoard = -Vector2Int.one;
+
                     _promote.SelectComplete();
                 }
             }

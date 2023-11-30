@@ -5195,6 +5195,9 @@ MonoBehaviour:
   _promotableChessBoardLayer:
     serializedVersion: 2
     m_Bits: 512
+  _castlingableChessBoardLayer:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &722048330
 GameObject:
   m_ObjectHideFlags: 0
@@ -10608,6 +10611,7 @@ MonoBehaviour:
   _selectableMat: {fileID: 2100000, guid: 3618f755857955e4583a533b97ff6cd1, type: 2}
   _attackableMat: {fileID: 2100000, guid: 183af7fc643bb1d499b3e014f70f5691, type: 2}
   _promotableMat: {fileID: 2100000, guid: f3e21a83744c96c498748503dd56ec83, type: 2}
+  _castlingableMat: {fileID: 2100000, guid: 177cf5631d1ff6f438d79560d03b331c, type: 2}
   _ingame: {fileID: 1988011785}
   _showCard: {fileID: 1988011783}
 --- !u!114 &1508242063

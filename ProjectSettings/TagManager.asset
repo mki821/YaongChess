@@ -14,8 +14,8 @@ TagManager:
   - ChessBoard
   - SelectableChessBoard
   - AttackableChessBoard
-  - PromotablechessBoard
-  - 
+  - PromotableChessBoard
+  - CastlingChessBoard
   - 
   - 
   - 
